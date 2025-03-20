@@ -12,7 +12,7 @@ class CRUDServidorEfetivo extends Controller
      */
     public function index()
     {
-        dd('TESTE');
+        return response()->json(['response' => 'SUCESSO']);
     }
 
     /**

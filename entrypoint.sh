@@ -1,6 +1,4 @@
 #!/bin/sh
-
-# Sai imediatamente em caso de erro
 set -e
 
 echo "🏗  Inicializando o ambiente..."
@@ -37,5 +35,7 @@ echo "📂 Ajustando permissões..."
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
-echo "🚀 Inicialização completa! Executando comando do container..."
-# exec "$@"
+echo "🚀 Inicialização completa! Iniciando Laravel..."
+
+# FORÇA a execução do servidor Laravel
+exec php artisan serve --host=0.0.0.0 --port=8181
