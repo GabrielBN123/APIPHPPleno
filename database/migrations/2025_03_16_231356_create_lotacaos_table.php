@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lotacaos', function (Blueprint $table) {
+        Schema::create('lotacao', function (Blueprint $table) {
             $table->id('lot_id');
-            $table->foreignId('pes_id')->constrained('pessoas', 'pes_id');
-            $table->foreignId('unid_id')->constrained('unidades', 'unidade_id');
+            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
+            $table->foreignId('unid_id')->constrained('unidade', 'unidade_id');
             $table->date('lot_data_lotacao');
             $table->date('lot_data_remocao')->nullable();
             $table->string('lot_portaria');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lotacaos');
+        Schema::dropIfExists('lotacao');
     }
 };

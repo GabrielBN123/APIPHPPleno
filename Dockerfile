@@ -3,6 +3,7 @@ FROM php:8.2-fpm
 # Atualiza pacotes e instala dependências
 RUN apt-get update -y \
     && apt-get install -y \
+    postgresql-client \
     openssl \
     zip \
     unzip \
@@ -27,6 +28,13 @@ RUN composer install --no-dev --prefer-dist --no-progress --no-suggest
 
 # Expõe a porta do Laravel
 EXPOSE 8181
+
+# Copia o entrypoint para dentro do container
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Define o entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Comando para iniciar o Laravel
 CMD php artisan serve --host=0.0.0.0 --port=8181

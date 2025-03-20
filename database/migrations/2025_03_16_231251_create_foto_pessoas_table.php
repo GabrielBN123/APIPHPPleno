@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('foto_pessoas', function (Blueprint $table) {
+        Schema::create('foto_pessoa', function (Blueprint $table) {
             $table->id('fp_id');
-            $table->foreignId('pes_id')->constrained('pessoas', 'pes_id');
+            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
             $table->dateTime('fp_data');
             $table->string('fp_bucket');
             $table->string('fp_hash');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('foto_pessoas');
+        Schema::dropIfExists('foto_pessoa');
     }
 };

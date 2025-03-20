@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sevidor_efetivos', function (Blueprint $table) {
+        Schema::create('servidor_efetivo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pes_id')->constrained('pessoas', 'pes_id');
+            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
             $table->string('se_matricula');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sevidor_efetivos');
+        Schema::dropIfExists('servidor_efetivo');
     }
 };
