@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('unidade', function (Blueprint $table) {
-            $table->id('unidade_id');
+            $table->id();
+            $table->integer('unidade_id')->uniqid();
             $table->string('unid_nome');
             $table->string('unid_sigla');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

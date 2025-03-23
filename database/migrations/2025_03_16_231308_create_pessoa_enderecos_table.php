@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pessoa_endereco', function (Blueprint $table) {
-            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
-            $table->foreignId('end_id')->constrained('endereco', 'end_id');
+            $table->id();
+            $table->foreignId('pes_id')->constrained('pessoa');
+            $table->foreignId('end_id')->constrained('endereco');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

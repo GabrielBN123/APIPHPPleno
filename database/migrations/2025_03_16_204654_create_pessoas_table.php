@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pessoa', function (Blueprint $table) {
-            $table->id('pes_id');
+            $table->id();
+            $table->integer('pes_id')->uniqid();
             $table->string('pes_nome');
             $table->date('pes_data_nascimento');
             $table->string('pes_sexo');
-            $table->string('pes_mae');
-            $table->string('pes_pai');
+            $table->string('pes_mae')->nullable();
+            $table->string('pes_pai')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

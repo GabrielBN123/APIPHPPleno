@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('servidor_efetivo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
+            $table->foreignId('pes_id')->constrained('pessoa');
             $table->string('se_matricula');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

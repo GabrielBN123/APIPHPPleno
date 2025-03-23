@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('foto_pessoa', function (Blueprint $table) {
-            $table->id('fp_id');
-            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
+            $table->id();
+            $table->integer('fp_id')->uniqid();
+            $table->foreignId('pes_id')->constrained('pessoa');
             $table->dateTime('fp_data');
             $table->string('fp_bucket');
             $table->string('fp_hash');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

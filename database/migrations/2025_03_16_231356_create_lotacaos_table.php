@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lotacao', function (Blueprint $table) {
-            $table->id('lot_id');
-            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
-            $table->foreignId('unid_id')->constrained('unidade', 'unidade_id');
+            $table->id();
+            $table->integer('lot_id')->uniqid();
+            $table->foreignId('pes_id')->constrained('pessoa');
+            $table->foreignId('unid_id')->constrained('unidade');
             $table->date('lot_data_lotacao');
             $table->date('lot_data_remocao')->nullable();
             $table->string('lot_portaria');

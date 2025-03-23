@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('unidade_endereco', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('unid_id')->constrained('unidade', 'unidade_id');
-            $table->foreignId('end_id')->constrained('endereco', 'end_id');
+            $table->foreignId('unid_id')->constrained('unidade');
+            $table->foreignId('end_id')->constrained('endereco');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

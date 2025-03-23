@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('servidor_temporario', function (Blueprint $table) {
-            $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
+            $table->id();
+            $table->foreignId('pes_id')->constrained('pessoa');
             $table->dateTime('st_data_admissao');
             $table->dateTime('st_data_demissao')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
