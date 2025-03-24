@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+composer install
+
 echo "🏗  Inicializando o ambiente..."
 
 # Garante que o .env existe, mas sem sobrescrever se já foi criado
@@ -16,8 +18,6 @@ while ! pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USERNAME" >/dev/null 2>&1
 done
 echo "✅ Banco de dados pronto!"
 
-php artisan db:seed
-
 # Gera a chave da aplicação, caso não exista
 if [ ! -f "storage/oauth-private.key" ]; then
     echo "🔑 Gerando chave da aplicação..."
@@ -31,6 +31,8 @@ if [ $(php artisan migrate:status | grep -c 'Yes') -eq 0 ]; then
 else
     echo "✅ Migrações já aplicadas."
 fi
+
+php artisan db:seed
 
 # Define permissões corretas (mais seguras que 777)
 echo "📂 Ajustando permissões..."
