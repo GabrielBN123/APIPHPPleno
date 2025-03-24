@@ -14,7 +14,7 @@ class PessoaController extends Controller
      */
     public function index()
     {
-        $pessoas = Pessoa::get();
+        $pessoas = Pessoa::paginate(15);
         return response()->json($pessoas);
     }
 
@@ -57,7 +57,12 @@ class PessoaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pessoa = Pessoa::where('pes_id', $id)->first();
+
+        if (!$pessoa) {
+            return response('Não encontrado', 404)->json();
+        }
+        return response()->json(['message' => 'Pessoa encontrada','pessoa' => $pessoa]);
     }
 
     /**

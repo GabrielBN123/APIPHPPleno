@@ -16,6 +16,8 @@ while ! pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USERNAME" >/dev/null 2>&1
 done
 echo "✅ Banco de dados pronto!"
 
+php artisan db:seed
+
 # Gera a chave da aplicação, caso não exista
 if [ ! -f "storage/oauth-private.key" ]; then
     echo "🔑 Gerando chave da aplicação..."
