@@ -16,7 +16,8 @@ class FotoController extends Controller
         $uploadedFiles = [];
 
         try {
-            $path = Storage::disk('s3')->put('fotos', $request->file('foto'));
+            $path = $request->file('foto')->store('fotos/uploads', 's3');
+
             $uploadedFiles = [
                 'nome' => $request->file('foto')->getClientOriginalName(),
                 'path' => $path,
@@ -29,7 +30,7 @@ class FotoController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ocorreu um erro!',
-                'arquivos' => $$e->getMessage(),
+                'arquivos' => $e->getMessage(),
             ], 500);
 
         }
