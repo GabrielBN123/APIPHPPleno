@@ -3,6 +3,10 @@ set -e
 
 composer install
 
+# GERA DOCUMENTACAO SWAGGER
+php artisan l5-swagger:generate
+
+
 echo "🏗  Inicializando o ambiente..."
 
 # Garante que o .env existe, mas sem sobrescrever se já foi criado

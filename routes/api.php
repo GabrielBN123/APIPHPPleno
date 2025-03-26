@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\FotoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\ServidorEfetivoController;
@@ -26,11 +27,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/fotos/upload', [FotoController::class, 'upload']);
+Route::post('/fotos/upload/{pes_id}', [FotoController::class, 'upload']);
+
+Route::get('/fotos/get-foto/{pes_id}', [FotoController::class, 'obterLinkTemporario']);
 
 Route::middleware('auth:sanctum')->group(function (){
 
-    // PESSOA
+    // CIDADE
+    // GET PAGINADO
+    Route::get('/cidade', [CidadeController::class, 'index']);
+    // SHOW
+    Route::get('/show-cidade/{cid_id}', [CidadeController::class, 'show']);
+    // STORE
+    Route::post('/store-cidade', [CidadeController::class, 'store']);
+    // UPDATE
+    Route::put('/update-cidade/{cid_id}', [CidadeController::class, 'update']);
+
     // GET PAGINADO
     Route::get('/pessoa', [PessoaController::class, 'index']);
     // SHOW
@@ -39,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('/store-pessoa', [PessoaController::class, 'store']);
     // UPDATE
     Route::put('/update-pessoa/{pes_id}', [PessoaController::class, 'update']);
+    // DELETE
+    Route::delete('/delete-pessoa/{pes_id}', [PessoaController::class, 'destroy']);
 
     // SERVIDOR EFETIVO
     // GET PAGINADO

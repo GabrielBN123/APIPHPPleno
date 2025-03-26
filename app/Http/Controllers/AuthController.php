@@ -8,7 +8,31 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // LOGIN
+    /**
+    * @OA\Post(
+    *     path="/api/login",
+    *     summary="Atutenticar usuário",
+    *     tags={"Autenticação"},
+    *     @OA\Parameter(
+    *         name="email",
+    *         in="query",
+    *         description="User's email",
+    *         required=true,
+    *         example="test@example.com",
+    *         @OA\Schema(type="string")
+    *     ),
+    *     @OA\Parameter(
+    *         name="password",
+    *         in="query",
+    *         description="User's password",
+    *         required=true,
+    *         example="123456789a",
+    *         @OA\Schema(type="string")
+    *     ),
+    *     @OA\Response(response="200", description="Login successful"),
+    *     @OA\Response(response="401", description="Invalid credentials")
+    * )
+    */
     public function login(Request $request)
     {
         $request->validate([
@@ -28,14 +52,49 @@ class AuthController extends Controller
         return response()->json(['token' => $token]);
     }
 
-    // LOGOUT (revoga token)
+    /**
+    * @OA\Post(
+    *     path="/api/logout",
+    *     summary="Logout",
+    *     tags={"Autenticação"},
+    *
+    *     @OA\Response(response="200", description="Login successful"),
+    *     @OA\Response(response="401", description="Invalid credentials"),
+    *     security={{"bearerAuth":{}}}
+    * )
+    */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 
-    // RENOVAÇÃO DE TOKEN
+    /**
+    * @OA\Post(
+    *     path="/api/refresh",
+    *     summary="Renovar Token",
+    *     tags={"Autenticação"},
+    *     @OA\Parameter(
+    *         name="email",
+    *         in="query",
+    *         description="User's email",
+    *         required=true,
+    *         example="test@example.com",
+    *         @OA\Schema(type="string")
+    *     ),
+    *     @OA\Parameter(
+    *         name="password",
+    *         in="query",
+    *         description="User's password",
+    *         required=true,
+    *         example="123456789a",
+    *         @OA\Schema(type="string")
+    *     ),
+    *     @OA\Response(response="200", description="Login successful"),
+    *     @OA\Response(response="401", description="Invalid credentials"),
+    *     security={{"bearerAuth":{}}}
+    * )
+    */
     public function refresh(Request $request)
     {
         $user = $request->user();
