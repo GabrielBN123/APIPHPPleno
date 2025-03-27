@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CidadeController;
+use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\FotoController;
+use App\Http\Controllers\LotacaoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\ServidorEfetivoController;
 use Illuminate\Http\Request;
@@ -34,24 +36,30 @@ Route::get('/fotos/get-foto/{pes_id}', [FotoController::class, 'obterLinkTempora
 Route::middleware('auth:sanctum')->group(function (){
 
     // CIDADE
-    // GET PAGINADO
     Route::get('/cidade', [CidadeController::class, 'index']);
-    // SHOW
     Route::get('/show-cidade/{cid_id}', [CidadeController::class, 'show']);
-    // STORE
     Route::post('/store-cidade', [CidadeController::class, 'store']);
-    // UPDATE
     Route::put('/update-cidade/{cid_id}', [CidadeController::class, 'update']);
 
-    // GET PAGINADO
+    // ENDEREÇO
+    Route::get('/endereco', [EnderecoController::class, 'index']);
+    Route::get('/show-endereco/{end_id}', [EnderecoController::class, 'show']);
+    Route::post('/store-endereco', [EnderecoController::class, 'store']);
+    Route::put('/update-endereco/{end_id}', [EnderecoController::class, 'update']);
+    Route::delete('/delete-endereco/{end_id}', [EnderecoController::class, 'destroy']);
+
+    // LOTAÇÃO
+    Route::get('/lotacao', [LotacaoController::class, 'index']);
+    Route::get('/show-lotacao/{lot_id}', [LotacaoController::class, 'show']);
+    Route::post('/store-lotacao', [LotacaoController::class, 'store']);
+    Route::put('/update-lotacao/{lot_id}', [LotacaoController::class, 'update']);
+    Route::delete('/delete-lotacao/{lot_id}', [LotacaoController::class, 'destroy']);
+
+    // PESSOA
     Route::get('/pessoa', [PessoaController::class, 'index']);
-    // SHOW
     Route::get('/show-pessoa/{pes_id}', [PessoaController::class, 'show']);
-    // STORE
     Route::post('/store-pessoa', [PessoaController::class, 'store']);
-    // UPDATE
     Route::put('/update-pessoa/{pes_id}', [PessoaController::class, 'update']);
-    // DELETE
     Route::delete('/delete-pessoa/{pes_id}', [PessoaController::class, 'destroy']);
 
     // SERVIDOR EFETIVO

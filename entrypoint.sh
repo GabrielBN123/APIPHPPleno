@@ -1,11 +1,12 @@
 #!/bin/sh
 set -e
 
+echo "Instalando dependências"
 composer install
 
 # GERA DOCUMENTACAO SWAGGER
+echo "🏗  Gerando SWAGGER"
 php artisan l5-swagger:generate
-
 
 echo "🏗  Inicializando o ambiente..."
 

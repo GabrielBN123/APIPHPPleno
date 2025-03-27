@@ -72,7 +72,7 @@ class PessoaController extends Controller
      *         )
      *     ),
      *     security={{"bearerAuth":{}}}
-     * 
+     *
      * )
      */
     public function store(Request $request)
@@ -220,7 +220,7 @@ class PessoaController extends Controller
      *     ),
      *      @OA\Response(
      *          response=200,
-     *          description="Pessoa Encontrada",
+     *          description="Pessoa Removida",
      *          @OA\MediaType(
      *              mediaType="application/json",
      *          )
