@@ -137,13 +137,255 @@
             }
         },
         "/api/store-cidade": {
+            "post": {
+                "tags": [
+                    "Cidade"
+                ],
+                "summary": "Cria uma nova Cidade",
+                "description": "Endpoint para criar uma nova cidade no sistema.",
+                "operationId": "8ca1fc058184c58b3a5ddcae730dfa7f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cid_id",
+                                    "cid_nome",
+                                    "cid_uf"
+                                ],
+                                "properties": {
+                                    "cid_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cid_nome": {
+                                        "type": "string",
+                                        "example": "Cuiabá"
+                                    },
+                                    "cid_uf": {
+                                        "type": "string",
+                                        "example": "MT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cidade criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cidade criada com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-cidade/{cid_id}": {
             "get": {
                 "tags": [
                     "Cidade"
                 ],
-                "summary": "GET pessoas",
+                "summary": "Show Cidade",
+                "description": "Retorna Cidade",
+                "operationId": "7f4ac4d7a9b953e6f8fa2b7ec7289a93",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "ID da Cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cidade Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Cidade não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-cidade/{cid_id}": {
+            "put": {
+                "tags": [
+                    "Cidade"
+                ],
+                "summary": "Atualizar ou criar uma Cidade",
+                "description": "Endpoint para atualizar uma nova cidade",
+                "operationId": "7a2d51946cee8eb508101b42e56b8851",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "ID da Cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cid_id": {
+                                        "type": "string",
+                                        "example": "M"
+                                    },
+                                    "cid_nome": {
+                                        "type": "string",
+                                        "example": "Maria Silva"
+                                    },
+                                    "cid_uf": {
+                                        "type": "string",
+                                        "example": "José Silva"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cidade atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cidade atualizada com sucesso"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "cid_nome": {
+                                                    "type": "string",
+                                                    "example": "Cuiabá"
+                                                },
+                                                "cid_uf": {
+                                                    "type": "string",
+                                                    "example": "MT"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-cidade/{cid_id}": {
+            "delete": {
+                "tags": [
+                    "Cidade"
+                ],
+                "summary": "Deleta Cidade",
+                "description": "Remove Cidade",
+                "operationId": "53101efc9169dd22f7de0a06ecf2f704",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "ID da Cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cidade Removida",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Cidade não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/endereco": {
+            "get": {
+                "tags": [
+                    "Endereço"
+                ],
+                "summary": "GET Endereços",
                 "description": "GET Paginado",
-                "operationId": "cf0f8a72991fad2e7a7a377b4f9e802d",
+                "operationId": "9c10249b6d54a91b77e519f61d558174",
                 "parameters": [
                     {
                         "name": "page",
@@ -159,17 +401,399 @@
                             "application/json": {}
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/api/fotos/upload/{pes_id}": {
+        "/api/store-endereco": {
+            "post": {
+                "tags": [
+                    "Endereço"
+                ],
+                "summary": "Cria um novo endereço",
+                "description": "Endpoint para cadasatrar um novo endereço no sistema.",
+                "operationId": "4933802f7da27814f755064f72e51aea",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "end_id",
+                                    "end_tipo_logradouro",
+                                    "end_logradouro",
+                                    "end_numero",
+                                    "end_bairro",
+                                    "cid_id"
+                                ],
+                                "properties": {
+                                    "end_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "end_tipo_logradouro": {
+                                        "type": "string",
+                                        "example": "rua ficticia"
+                                    },
+                                    "end_logradouro": {
+                                        "type": "string",
+                                        "example": "logradouro"
+                                    },
+                                    "end_numero": {
+                                        "type": "string",
+                                        "example": "01"
+                                    },
+                                    "end_bairro": {
+                                        "type": "string",
+                                        "example": "CPA II"
+                                    },
+                                    "cid_id": {
+                                        "type": "string",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Endereço Cadastrado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Endereço Cadastrado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-endereço/{end_id}": {
+            "get": {
+                "tags": [
+                    "Endereço"
+                ],
+                "summary": "Show Endereço",
+                "description": "Show Endereço",
+                "operationId": "d15701c20cd588174af0849af021a327",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "path",
+                        "description": "ID do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Endereço Encontrado",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-endereco/{end_id}": {
+            "put": {
+                "tags": [
+                    "Endereço"
+                ],
+                "summary": "Atualizar uma Endereco",
+                "description": "Endpoint para atualizar um novo endereço",
+                "operationId": "378f7ff1666336805c77d3d1cd2048de",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "path",
+                        "description": "ID do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "end_tipo_logradouro": {
+                                        "type": "string",
+                                        "example": "rua ficticia"
+                                    },
+                                    "end_logradouro": {
+                                        "type": "string",
+                                        "example": "logradouro"
+                                    },
+                                    "end_numero": {
+                                        "type": "string",
+                                        "example": "01"
+                                    },
+                                    "end_bairro": {
+                                        "type": "string",
+                                        "example": "CPA III"
+                                    },
+                                    "cid_id": {
+                                        "type": "string",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Endereço atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Endereço atualizado com sucesso"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "end_tipo_logradouro": {
+                                                    "type": "string",
+                                                    "example": "rua ficticia"
+                                                },
+                                                "end_logradouro": {
+                                                    "type": "string",
+                                                    "example": "logradouro"
+                                                },
+                                                "end_numero": {
+                                                    "type": "string",
+                                                    "example": "01"
+                                                },
+                                                "end_bairro": {
+                                                    "type": "string",
+                                                    "example": "CPA III"
+                                                },
+                                                "cid_id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-endereco/{end_id}": {
+            "delete": {
+                "tags": [
+                    "Endereço"
+                ],
+                "summary": "Deleta Endereço",
+                "description": "Remove Endereço",
+                "operationId": "3a3a0c8c1afaf040bc2c329ae1e48638",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "path",
+                        "description": "ID do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Endereço Removido",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/foto-pessoa": {
+            "get": {
+                "tags": [
+                    "FotoPessoa"
+                ],
+                "summary": "GET Foto Pessoa",
+                "description": "GET Paginado",
+                "operationId": "d00eae9085a87a12a72fe0d482ac5475",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-foto-pessoa/{pes_id}": {
             "post": {
                 "tags": [
                     "FotoPessoa"
                 ],
-                "summary": "Enviar foto",
+                "summary": "Armazenar foto vínculada a pessoa",
                 "description": "Endpoint enviar foto de usuário, vinculando ao mesmo.",
-                "operationId": "79d0605bb2e3505ef4deecfd89a9aac6",
+                "operationId": "9400dab5fcf08c2383d769f3ad83295f",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "foto": {
+                                        "description": "Arquivo de foto (imagem)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Foto enviada com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Foto enviada com sucesso!"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "documento_url": {
+                                                    "type": "string",
+                                                    "example": "https://seuservidor.com/uploads/documento.pdf"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                }
+            }
+        },
+        "/api/update-foto-pessoa/{pes_id}": {
+            "put": {
+                "tags": [
+                    "FotoPessoa"
+                ],
+                "summary": "Atualizar foto de usuário",
+                "description": "Endpoint atualizar foto de usuário, vinculando ao mesmo.",
+                "operationId": "7af596e1aeb384af0bef6815c730cdfe",
                 "parameters": [
                     {
                         "name": "pes_id",
@@ -238,7 +862,7 @@
                 ],
                 "summary": "Trazer foto do usuário com link temporário",
                 "description": "Endpoint retornar link temporário da foto do usuário",
-                "operationId": "ff28760751d477f41cc3d89ddc27f71a",
+                "operationId": "08111e2aae7d0f3ee6d947f5897d1285",
                 "parameters": [
                     {
                         "name": "pes_id",
@@ -259,6 +883,358 @@
                         "description": "Erro na requisição"
                     }
                 }
+            }
+        },
+        "/api/delete-foto-pessoa/{pes_id}": {
+            "delete": {
+                "tags": [
+                    "FotoPessoa"
+                ],
+                "summary": "Deleta Foto Pessoa",
+                "description": "Remove Foto Pessoa",
+                "operationId": "cbb92e683a532eaabf15bfae2c13cbda",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Foto Pessoa Removida",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Foto Pessoa não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/lotacao": {
+            "get": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "GET Lotação",
+                "description": "GET Paginado",
+                "operationId": "8dfa9caa7bab78e1f9117ec4c572d68e",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-lotacao": {
+            "post": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "Cria um novo lotação",
+                "description": "Endpoint para cadasatrar uma nova lotação no sistema.",
+                "operationId": "a66f3333f1984d9e420e2a1221408384",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "lot_id",
+                                    "pes_id",
+                                    "unid_id",
+                                    "lot_data_lotacao",
+                                    "lot_data_remocao",
+                                    "lot_portaria"
+                                ],
+                                "properties": {
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unid_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "lot_data_lotacao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-05-15"
+                                    },
+                                    "lot_data_remocao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-15"
+                                    },
+                                    "lot_portaria": {
+                                        "type": "string",
+                                        "example": "Portaria x1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lotação Cadastrada com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotação Cadastrada com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-lotacao/{lot_id}": {
+            "get": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "Show Lotação",
+                "description": "Show Lotação",
+                "operationId": "85a4f3e5b28b62c9b54aeedd3af8ebf7",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "path",
+                        "description": "ID da Lotação",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lotação Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Lotação não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-lotacao/{lot_id}": {
+            "put": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "Atualizar uma Lotação",
+                "description": "Endpoint para atualizar uma nova Lotação",
+                "operationId": "d98a1e9f24526e594bccd846e19b5249",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "path",
+                        "description": "ID da Lotação",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unid_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "lot_data_lotacao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-05-15"
+                                    },
+                                    "lot_data_remocao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-15"
+                                    },
+                                    "lot_portaria": {
+                                        "type": "string",
+                                        "example": "Portaria x1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lotação atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotação atualizado com sucesso"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "pes_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "unid_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "lot_data_lotacao": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-05-15"
+                                                },
+                                                "lot_data_remocao": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-05-15"
+                                                },
+                                                "lot_portaria": {
+                                                    "type": "string",
+                                                    "example": "Portaria x1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-lotacao/{lot_id}": {
+            "delete": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "Deleta Lotação",
+                "description": "Remove Lotação",
+                "operationId": "343cc5037ec29b8fb3f870fba3a3e4fe",
+                "parameters": [
+                    {
+                        "name": "lot_id",
+                        "in": "path",
+                        "description": "ID do Lotação",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lotação Removida",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Lotação não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/pessoa": {
@@ -558,13 +1534,1338 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Pessoa Encontrada",
+                        "description": "Pessoa Removida",
                         "content": {
                             "application/json": {}
                         }
                     },
                     "404": {
                         "description": "Pessoa não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pessoa-endereco": {
+            "get": {
+                "tags": [
+                    "Pessoa-Endereco"
+                ],
+                "summary": "GET Pessoa Endereço",
+                "description": "GET Paginado",
+                "operationId": "93ebd4a5fd141917ab8395ee4e92b16b",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-pessoa-endereco": {
+            "post": {
+                "tags": [
+                    "Pessoa-Endereco"
+                ],
+                "summary": "Vincula Endereço a uma pessoa",
+                "description": "Endpoint para vincular no sistema uma pessoa a um endereço",
+                "operationId": "7637da075af5489f87cc43ebbbabd6a2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "end_id"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "end_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vínculo realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vínculo realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-pessoa-endereco/{pes_id}": {
+            "get": {
+                "tags": [
+                    "Pessoa-Endereco"
+                ],
+                "summary": "Show Pessoa Endereço",
+                "description": "Show Pessoa Endereço",
+                "operationId": "2264d28f1244c358db601c39a708d4ba",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa ou ID do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Endereço vinculado a pessoa encontrado",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum endereco vinculado a esta pessoa"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-pessoa-endereco/{pes_id}": {
+            "put": {
+                "tags": [
+                    "Pessoa-Endereco"
+                ],
+                "summary": "Atualizar um endereço vinculado",
+                "description": "Endpoint para atualizar um vínculo de endereço e pessoa",
+                "operationId": "970ff4b40f6c48fe90786dff1b40cfd0",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "end_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pessoa Endereço atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pessoa Endereço atualizado com sucesso"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "end_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-pessoa-endereco/{pes_id}": {
+            "delete": {
+                "tags": [
+                    "Pessoa-Endereco"
+                ],
+                "summary": "Deleta Pessoa Endereço",
+                "description": "Remove Pessoa Endereço",
+                "operationId": "f6802a1297abe97e6d192b463101b2b5",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pessoa Endereço Removido",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Pessoa Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/servidor-efetivo": {
+            "get": {
+                "tags": [
+                    "Servidor-Efetivo"
+                ],
+                "summary": "GET Servidor Efetivo",
+                "description": "GET Paginado",
+                "operationId": "4b1c83d6265f7aad3977994940ab58c8",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-servidor-efetivo": {
+            "post": {
+                "tags": [
+                    "Servidor-Efetivo"
+                ],
+                "summary": "Vincula torna pessoa em servidor efetivo",
+                "description": "Endpoint para vincular pessoa em servidor efetivo",
+                "operationId": "7899fc2a52cda1f941915ce5c8159270",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "se_matricula"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "se_matricula": {
+                                        "type": "string",
+                                        "example": "205400"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vínculo realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vínculo realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-servidor-efetivo/{pes_id}": {
+            "get": {
+                "tags": [
+                    "Servidor-Efetivo"
+                ],
+                "summary": "Show Servidor Efetivo",
+                "description": "Show Servidor Efetivo",
+                "operationId": "f5db8772bb347653f8b9f2c83e1c9195",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Servidor Efetivo encontrado",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum vínculo de servidor efetivo encontrado para esta pessoa"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-servidor-efetivo/{pes_id}": {
+            "put": {
+                "tags": [
+                    "Servidor-Efetivo"
+                ],
+                "summary": "Atualizar um servidor efetivo",
+                "description": "Endpoint para atualizar servidor efetivo",
+                "operationId": "83f3a6b1e8c141eda6eec890e50a497e",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "se_matricula": {
+                                        "type": "string",
+                                        "example": "205400"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Servidor Efetivo Atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Servidor Efetivo Atualizado"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "se_matricula": {
+                                                    "type": "integer",
+                                                    "example": "205400"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-servidor-efetivo/{pes_id}": {
+            "delete": {
+                "tags": [
+                    "Servidor-Efetivo"
+                ],
+                "summary": "Deleta Servidor Efetivo",
+                "description": "Remove Servidor Efetivo",
+                "operationId": "3ad3cb7cfde5c883bf72d83ac0fa6e5c",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Servidor Efetivo Removido",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Servidor Efetivo não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/servidor-temporario": {
+            "get": {
+                "tags": [
+                    "Servidor-Temporario"
+                ],
+                "summary": "GET Servidor Temporario",
+                "description": "GET Paginado",
+                "operationId": "267ac3162f73afe133db19d09dea76a0",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-servidor-temporario": {
+            "post": {
+                "tags": [
+                    "Servidor-Temporario"
+                ],
+                "summary": "Vincula torna pessoa em servidor temporario",
+                "description": "Endpoint para vincular pessoa em servidor temporario",
+                "operationId": "1a9c48e8f7c9a61805a38629db46b350",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "st_data_admissao",
+                                    "st_data_demissao"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "st_data_admissao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-05-15"
+                                    },
+                                    "st_data_demissao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-15"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vínculo realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vínculo realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-servidor-temporario/{pes_id}": {
+            "get": {
+                "tags": [
+                    "Servidor-Temporario"
+                ],
+                "summary": "Show Servidor Temporario",
+                "description": "Show Servidor Temporario",
+                "operationId": "6ccc17b3567c6a5c72e95c5153269541",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Servidor Temporario encontrado",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum vínculo temporario encontrado para esta pessoa"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-servidor-temporario/{pes_id}": {
+            "put": {
+                "tags": [
+                    "Servidor-Temporario"
+                ],
+                "summary": "Atualizar um servidor temporario",
+                "description": "Endpoint para atualizar servidor temporario",
+                "operationId": "7bb2d3f47454a7e71bedb0b1c9f79118",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "st_data_admissao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-05-15"
+                                    },
+                                    "st_data_demissao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-05-15"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Servidor Temporario atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Servidor Temporario atualizado"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "st_data_admissao": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-05-15"
+                                                },
+                                                "st_data_demissao": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-05-15"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-servidor-temporario/{pes_id}": {
+            "delete": {
+                "tags": [
+                    "Servidor-Temporario"
+                ],
+                "summary": "Deleta Servidor Temporario",
+                "description": "Remove Servidor Temporario",
+                "operationId": "1dbaf8e443e00b209724f163841636a6",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da Pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Servidor Temporario Removido",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Servidor Temporario não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/unidade": {
+            "get": {
+                "tags": [
+                    "Unidade"
+                ],
+                "summary": "GET Unidade",
+                "description": "GET Paginado",
+                "operationId": "2250b14b758c20a6048832f40e52f176",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-unidade": {
+            "post": {
+                "tags": [
+                    "Unidade"
+                ],
+                "summary": "Cria uma unidade no sistema",
+                "description": "Endpoint para cadastrar uma unidade",
+                "operationId": "dd4a6369c27e07e1d52a49d4db7003de",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "unidade_id",
+                                    "st_data_admissao",
+                                    "st_data_demissao"
+                                ],
+                                "properties": {
+                                    "unidade_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unid_nome": {
+                                        "type": "string",
+                                        "example": "Unidade do CPA II"
+                                    },
+                                    "unid_sigla": {
+                                        "type": "string",
+                                        "example": "GTCPAII"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vínculo realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vínculo realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-unidade/{unidade_id}": {
+            "get": {
+                "tags": [
+                    "Unidade"
+                ],
+                "summary": "Show Unidade",
+                "description": "Show Unidade",
+                "operationId": "f19c2ab254d5f8fc040ee81885d326de",
+                "parameters": [
+                    {
+                        "name": "unidade_id",
+                        "in": "path",
+                        "description": "ID da Unidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unidade encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma unidade encontrda"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-unidade/{unidade_id}": {
+            "put": {
+                "tags": [
+                    "Unidade"
+                ],
+                "summary": "Atualizar uma unidade",
+                "description": "Endpoint para atualizar unidade",
+                "operationId": "ae0c4e35b11ebb53adfddf7e446aca4b",
+                "parameters": [
+                    {
+                        "name": "unidade_id",
+                        "in": "path",
+                        "description": "ID da Unidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "unid_nome": {
+                                        "type": "string",
+                                        "example": "Unidade do CPA II"
+                                    },
+                                    "unid_sigla": {
+                                        "type": "string",
+                                        "example": "GTCPAII"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Unidade atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unidade atualizado"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "unid_nome": {
+                                                    "type": "string",
+                                                    "example": "Unidade do CPA II"
+                                                },
+                                                "unid_sigla": {
+                                                    "type": "string",
+                                                    "example": "GTCPAII"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-unidade/{unidade_id}": {
+            "delete": {
+                "tags": [
+                    "Unidade"
+                ],
+                "summary": "Deleta Unidade",
+                "description": "Remove Unidade",
+                "operationId": "2aba1468e393fb612c359786f5f4a7c6",
+                "parameters": [
+                    {
+                        "name": "unidade_id",
+                        "in": "path",
+                        "description": "ID da uniade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unidade Removida",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Unidade não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/unidade-endereco": {
+            "get": {
+                "tags": [
+                    "Unidade-Endereco"
+                ],
+                "summary": "GET Unidade",
+                "description": "GET Paginado",
+                "operationId": "e3869607b95dba41e7d717a3f53089be",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/store-unidade-endereco": {
+            "post": {
+                "tags": [
+                    "Unidade-Endereco"
+                ],
+                "summary": "Víncula um endereço a uma unidade",
+                "description": "Endpoint para vincular um endereço a uma unidade",
+                "operationId": "11470288d4092adfecbd26ba5a5c547d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "unidade_id",
+                                    "st_data_admissao",
+                                    "st_data_demissao"
+                                ],
+                                "properties": {
+                                    "unidade_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unid_nome": {
+                                        "type": "string",
+                                        "example": "Unidade do CPA II"
+                                    },
+                                    "unid_sigla": {
+                                        "type": "string",
+                                        "example": "GTCPAII"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vínculo realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vínculo realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/show-unidade-endereco/{unid_id}": {
+            "get": {
+                "tags": [
+                    "Unidade-Endereco"
+                ],
+                "summary": "Show Unidade",
+                "description": "Show Unidade",
+                "operationId": "5c506533ee278b574c9cf78a1464db67",
+                "parameters": [
+                    {
+                        "name": "unid_id",
+                        "in": "path",
+                        "description": "ID da Unidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unidade encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma unidade encontrda"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/update-unidade-endereco/{unid_id}": {
+            "put": {
+                "tags": [
+                    "Unidade-Endereco"
+                ],
+                "summary": "Atualizar uma unidade",
+                "description": "Endpoint para atualizar unidade",
+                "operationId": "e4c288fd0e3ed6a415886d936ecc428c",
+                "parameters": [
+                    {
+                        "name": "unid_id",
+                        "in": "path",
+                        "description": "ID da Unidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "unid_nome": {
+                                        "type": "string",
+                                        "example": "Unidade do CPA II"
+                                    },
+                                    "unid_sigla": {
+                                        "type": "string",
+                                        "example": "GTCPAII"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Unidade atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unidade atualizado"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "unid_nome": {
+                                                    "type": "string",
+                                                    "example": "Unidade do CPA II"
+                                                },
+                                                "unid_sigla": {
+                                                    "type": "string",
+                                                    "example": "GTCPAII"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/delete-unidade-endereco/{unid_id}": {
+            "delete": {
+                "tags": [
+                    "Unidade-Endereco"
+                ],
+                "summary": "Deleta vinculo de unidade endereco",
+                "description": "Remove vinculo de unidade endereco",
+                "operationId": "cdaf75ce0805ce948bc393fa92c72f8c",
+                "parameters": [
+                    {
+                        "name": "unid_id",
+                        "in": "path",
+                        "description": "ID da uniade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Unidade Removida",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Unidade não encontrada"
                     }
                 },
                 "security": [
@@ -594,12 +2895,40 @@
             "description": "Cidade"
         },
         {
+            "name": "Endereço",
+            "description": "Endereço"
+        },
+        {
             "name": "FotoPessoa",
             "description": "FotoPessoa"
         },
         {
+            "name": "Lotação",
+            "description": "Lotação"
+        },
+        {
             "name": "Pessoa",
             "description": "Pessoa"
+        },
+        {
+            "name": "Pessoa-Endereco",
+            "description": "Pessoa-Endereco"
+        },
+        {
+            "name": "Servidor-Efetivo",
+            "description": "Servidor-Efetivo"
+        },
+        {
+            "name": "Servidor-Temporario",
+            "description": "Servidor-Temporario"
+        },
+        {
+            "name": "Unidade",
+            "description": "Unidade"
+        },
+        {
+            "name": "Unidade-Endereco",
+            "description": "Unidade-Endereco"
         }
     ]
 }

@@ -6,7 +6,11 @@ use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\FotoController;
 use App\Http\Controllers\LotacaoController;
 use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\PessoaEnderecoController;
 use App\Http\Controllers\ServidorEfetivoController;
+use App\Http\Controllers\ServidorTemporarioController;
+use App\Http\Controllers\UnidadeController;
+use App\Http\Controllers\UnidadeEnderecoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,23 +22,23 @@ use Illuminate\Support\Facades\Route;
 // Login (gera token)
 Route::post('/login', [AuthController::class, 'login']);
 
-// Logout (revoga token)
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-// Renovação do Token
-Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:sanctum');
 
 // Exemplo de rota protegida
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::post('/fotos/upload/{pes_id}', [FotoController::class, 'upload']);
 
-Route::get('/fotos/get-foto/{pes_id}', [FotoController::class, 'obterLinkTemporario']);
 
 Route::middleware('auth:sanctum')->group(function (){
 
+
+    // Logout (revoga token)
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
+    // Renovação do Token
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    
     // CIDADE
     Route::get('/cidade', [CidadeController::class, 'index']);
     Route::get('/show-cidade/{cid_id}', [CidadeController::class, 'show']);
@@ -47,6 +51,15 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('/store-endereco', [EnderecoController::class, 'store']);
     Route::put('/update-endereco/{end_id}', [EnderecoController::class, 'update']);
     Route::delete('/delete-endereco/{end_id}', [EnderecoController::class, 'destroy']);
+
+    // ENDEREÇO
+    Route::get('/foto-pessoa', [FotoController::class, 'index']);
+    Route::get('/show-foto-pessoa/{pes_id}', [FotoController::class, 'show']);
+    Route::post('/store-foto-pessoa/{pes_id}', [FotoController::class, 'store']);
+    Route::put('/update-foto-pessoa/{pes_id}', [FotoController::class, 'update']);
+    Route::delete('/delete-foto-pessoa/{pes_id}', [FotoController::class, 'destroy']);
+    
+    // Route::get('/fotos/get-foto/{pes_id}', [FotoController::class, 'obterLinkTemporario']);
 
     // LOTAÇÃO
     Route::get('/lotacao', [LotacaoController::class, 'index']);
@@ -62,15 +75,40 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::put('/update-pessoa/{pes_id}', [PessoaController::class, 'update']);
     Route::delete('/delete-pessoa/{pes_id}', [PessoaController::class, 'destroy']);
 
+    // PESSOAENDERECO
+    Route::get('/pessoa-endereco', [PessoaEnderecoController::class, 'index']);
+    Route::get('/show-pessoa-endereco/{pes_id}', [PessoaEnderecoController::class, 'show']);
+    Route::post('/store-pessoa-endereco', [PessoaEnderecoController::class, 'store']);
+    Route::put('/update-pessoa-endereco/{pes_id}', [PessoaEnderecoController::class, 'update']);
+    Route::delete('/delete-pessoa-endereco/{pes_id}', [PessoaEnderecoController::class, 'destroy']);
+
     // SERVIDOR EFETIVO
-    // GET PAGINADO
-    Route::get('/get-servidor-efetivo', [ServidorEfetivoController::class, 'index']);
-    // SHOW
+    Route::get('/servidor-efetivo', [ServidorEfetivoController::class, 'index']);
     Route::get('/show-servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'show']);
-    // STORE
     Route::post('/store-servidor-efetivo', [ServidorEfetivoController::class, 'store']);
-    // UPDATE
     Route::put('/update-servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'update']);
+    Route::delete('/delete-servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'destroy']);
+
+    // SERVIDOR TEMPORARIO
+    Route::get('/servidor-temporario', [ServidorTemporarioController::class, 'index']);
+    Route::get('/show-servidor-temporario/{pes_id}', [ServidorTemporarioController::class, 'show']);
+    Route::post('/store-servidor-temporario', [ServidorTemporarioController::class, 'store']);
+    Route::put('/update-servidor-temporario/{pes_id}', [ServidorTemporarioController::class, 'update']);
+    Route::delete('/delete-servidor-temporario/{pes_id}', [ServidorTemporarioController::class, 'destroy']);
+
+    // UNIDADE
+    Route::get('/unidade', [UnidadeController::class, 'index']);
+    Route::get('/show-unidade/{unidade_id}', [UnidadeController::class, 'show']);
+    Route::post('/store-unidade', [UnidadeController::class, 'store']);
+    Route::put('/update-unidade/{unidade_id}', [UnidadeController::class, 'update']);
+    Route::delete('/delete-unidade/{unidade_id}', [UnidadeController::class, 'destroy']);
+
+    // UNIDADE ENDERECO
+    Route::get('/unidade-endereco', [UnidadeEnderecoController::class, 'index']);
+    Route::get('/show-unidade-endereco/{unid_id}', [UnidadeEnderecoController::class, 'show']);
+    Route::post('/store-unidade-endereco', [UnidadeEnderecoController::class, 'store']);
+    Route::put('/update-unidade-endereco/{unid_id}', [UnidadeEnderecoController::class, 'update']);
+    Route::delete('/delete-unidade-endereco/{unid_id}', [UnidadeEnderecoController::class, 'destroy']);
 
 });
 

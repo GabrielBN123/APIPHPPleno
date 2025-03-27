@@ -53,8 +53,8 @@ class LotacaoController extends Controller
      *             @OA\Property(property="lot_id", type="integer", example=1),
      *             @OA\Property(property="pes_id", type="integer", example="1"),
      *             @OA\Property(property="unid_id", type="integer", example="1"),
-     *             @OA\Property(property="lot_data_lotacao", type="string", formate="date", example="2024-05-15"),
-     *             @OA\Property(property="lot_data_remocao", type="string", formate="date", example="2025-05-15"),
+     *             @OA\Property(property="lot_data_lotacao", type="string", format="date", example="2024-05-15"),
+     *             @OA\Property(property="lot_data_remocao", type="string", format="date", example="2025-05-15"),
      *             @OA\Property(property="lot_portaria", type="string", example="Portaria x1")
      *         )
      *     ),
@@ -155,8 +155,8 @@ class LotacaoController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="pes_id", type="integer", example="1"),
      *             @OA\Property(property="unid_id", type="integer", example="1"),
-     *             @OA\Property(property="lot_data_lotacao", type="string", formate="date", example="2024-05-15"),
-     *             @OA\Property(property="lot_data_remocao", type="string", formate="date", example="2025-05-15"),
+     *             @OA\Property(property="lot_data_lotacao", type="string", format="date", example="2024-05-15"),
+     *             @OA\Property(property="lot_data_remocao", type="string", format="date", example="2025-05-15"),
      *             @OA\Property(property="lot_portaria", type="string", example="Portaria x1")
      *         )
      *     ),
@@ -168,8 +168,8 @@ class LotacaoController extends Controller
      *             @OA\Property(property="data", type="object",
      *             @OA\Property(property="pes_id", type="integer", example="1"),
      *             @OA\Property(property="unid_id", type="integer", example="1"),
-     *             @OA\Property(property="lot_data_lotacao", type="string", formate="date", example="2024-05-15"),
-     *             @OA\Property(property="lot_data_remocao", type="string", formate="date", example="2025-05-15"),
+     *             @OA\Property(property="lot_data_lotacao", type="string", format="date", example="2024-05-15"),
+     *             @OA\Property(property="lot_data_remocao", type="string", format="date", example="2025-05-15"),
      *             @OA\Property(property="lot_portaria", type="string", example="Portaria x1")
      *             )
      *         )

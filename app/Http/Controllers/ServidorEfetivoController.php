@@ -9,11 +9,31 @@ use Illuminate\Support\Facades\DB;
 class ServidorEfetivoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *  @OA\GET(
+     *      path="/api/servidor-efetivo",
+     *      summary="GET Servidor Efetivo",
+     *      description="GET Paginado",
+     *      tags={"Servidor-Efetivo"},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page Number",
+     *         required=false,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="OK",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      security={{"bearerAuth":{}}}
+     *
+     *  )
      */
     public function index()
     {
-        $servidor = ServidorEfetivo::paginate(15);
+        $servidor = ServidorEfetivo::with('pes_id')->paginate(15);
         return response()->json([
             'message' => 'Servidores encontrados',
             'servidor' => $servidor,
@@ -21,7 +41,37 @@ class ServidorEfetivoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/store-servidor-efetivo",
+     *     summary="Vincula torna pessoa em servidor efetivo",
+     *     description="Endpoint para vincular pessoa em servidor efetivo",
+     *     tags={"Servidor-Efetivo"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"pes_id","se_matricula"},
+     *             @OA\Property(property="pes_id", type="integer", example="1"),
+     *             @OA\Property(property="se_matricula", type="string", example="205400"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Vínculo realizado com sucesso!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Vínculo realizado com sucesso!"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro na validação dos dados",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Erro de validação"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     security={{"bearerAuth":{}}}
+     *
+     * )
      */
     public function store(Request $request)
     {
@@ -51,11 +101,35 @@ class ServidorEfetivoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     *  @OA\GET(
+     *      path="/api/show-servidor-efetivo/{pes_id}",
+     *      summary="Show Servidor Efetivo",
+     *      description="Show Servidor Efetivo",
+     *      tags={"Servidor-Efetivo"},
+     *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da Pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Servidor Efetivo encontrado",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nenhum vínculo de servidor efetivo encontrado para esta pessoa"
+     *      ),
+     *     security={{"bearerAuth":{}}}
+     *  )
      */
-    public function show(string $id)
+    public function show(string $pes_id)
     {
-        $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $id)->first();
+        $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $pes_id)->first();
         if(!$servidor){
             return response('Não encontrado', 404)->json([
                 'message' => 'Servidor Não encontrado!',
@@ -69,19 +143,52 @@ class ServidorEfetivoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\PUT(
+     *     path="/api/update-servidor-efetivo/{pes_id}",
+     *     summary="Atualizar um servidor efetivo",
+     *     description="Endpoint para atualizar servidor efetivo",
+     *     tags={"Servidor-Efetivo"},
+     *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da Pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=false,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="se_matricula", type="string", example="205400"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Servidor Efetivo Atualizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Servidor Efetivo Atualizado"),
+     *             @OA\Property(property="data", type="object",
+     *             @OA\Property(property="se_matricula", type="integer", example="205400"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro na requisição"
+     *     ),
+     *     security={{"bearerAuth":{}}}
+     * )
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $pes_id)
     {
 
         $validated = $request->validate([
-            'se_matricula' => 'required'
+            'se_matricula' => 'string'
         ]);
 
 
         try {
-            DB::transaction(function () use ($validated, $id){
-                $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $id)->first();
+            DB::transaction(function () use ($validated, $pes_id){
+                $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $pes_id)->first();
                 if(!$servidor){
                     return response('Não encontrado', 404)->json([
                         'message' => 'Servidor Não encontrado!',
@@ -103,13 +210,37 @@ class ServidorEfetivoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     *  @OA\DELETE(
+     *      path="/api/delete-servidor-efetivo/{pes_id}",
+     *      summary="Deleta Servidor Efetivo",
+     *      description="Remove Servidor Efetivo",
+     *      tags={"Servidor-Efetivo"},
+     *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da Pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Servidor Efetivo Removido",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Servidor Efetivo não encontrado"
+     *      ),
+     *     security={{"bearerAuth":{}}}
+     *  )
      */
-    public function destroy(string $id)
+    public function destroy(string $pes_id)
     {
         try {
-            DB::transaction(function () use ($id){
-                $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $id)->first();
+            DB::transaction(function () use ($pes_id){
+                $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $pes_id)->first();
                 if(!$servidor){
                     return response('Não encontrado', 404)->json([
                         'message' => 'Servidor Não encontrado!',

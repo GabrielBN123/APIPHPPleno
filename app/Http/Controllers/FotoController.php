@@ -10,10 +10,44 @@ use Illuminate\Support\Facades\Storage;
 
 class FotoController extends Controller
 {
+
+    /**
+     *  @OA\GET(
+     *      path="/api/foto-pessoa",
+     *      summary="GET Foto Pessoa",
+     *      description="GET Paginado",
+     *      tags={"FotoPessoa"},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Page Number",
+     *         required=false,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="OK",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      security={{"bearerAuth":{}}}
+     *
+     *  )
+     */
+    public function index()
+    {
+        $fotoPessoa = FotoPessoa::with('pessoa')->paginate(15);
+        if(!$fotoPessoa)
+        {
+            return response('Não encontrado', 404)->json();
+        }
+        return response()->json(['message' => 'Fotos encontradas', 'fotoPessoa' => $fotoPessoa]);
+    }
+
     /**
      * @OA\Post(
-     *     path="/api/fotos/upload/{pes_id}",
-     *     summary="Enviar foto",
+     *     path="/api/store-foto-pessoa/{pes_id}",
+     *     summary="Armazenar foto vínculada a pessoa",
      *     description="Endpoint enviar foto de usuário, vinculando ao mesmo.",
      *     tags={"FotoPessoa"},
      *     @OA\Parameter(
@@ -53,7 +87,7 @@ class FotoController extends Controller
      *     )
      * )
      */
-    public function upload(Request $request, string $pes_id)
+    public function store(Request $request, string $pes_id)
     {
         $request->validate([
             'foto' => 'required|image|',
@@ -95,6 +129,93 @@ class FotoController extends Controller
     }
 
     /**
+     * @OA\PUT(
+     *     path="/api/update-foto-pessoa/{pes_id}",
+     *     summary="Atualizar foto de usuário",
+     *     description="Endpoint atualizar foto de usuário, vinculando ao mesmo.",
+     *     tags={"FotoPessoa"},
+     *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="foto",
+     *                     description="Arquivo de foto (imagem)",
+     *                     type="string",
+     *                     format="binary"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Foto enviada com sucesso!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Foto enviada com sucesso!"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="documento_url", type="string", example="https://seuservidor.com/uploads/documento.pdf")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro na requisição"
+     *     )
+     * )
+     */
+    public function update(Request $request, string $pes_id)
+    {
+        $request->validate([
+            'foto' => 'required|image|',
+        ]);
+
+        $pessoa = Pessoa::where('pes_id', $pes_id)->first();
+
+        if (!$pessoa) {
+            return response('Não encontrado', 404)->json();
+        }
+
+
+        try {
+
+            $foto = FotoPessoa::where('pes_id', $pes_id)->first();
+
+            if(!$foto){
+                return response('Foto Pessoa não encontrado', 404)->json();
+            }
+
+            $path = $request->file('foto')->store('fotos/uploads', 's3');
+
+            $foto = FotoPessoa::update([
+                'fp_id' => $pes_id,
+                'pes_id' => $pes_id,
+                'fp_data' => Carbon::now(),
+                'fp_bucket' => env('AWS_BUCKET'),
+                'fp_hash' => $path,
+            ]);
+
+            return response()->json([
+                'message' => 'Foto pessoa Atualizada!',
+                'Foto' => $foto,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ocorreu um erro!',
+                'arquivos' => $e->getMessage(),
+            ], 500);
+
+        }
+    }
+
+    /**
      * @OA\GET(
      *     path="/api/get-foto/{pes_id}",
      *     summary="Trazer foto do usuário com link temporário",
@@ -117,7 +238,7 @@ class FotoController extends Controller
      *     )
      * )
      */
-    public function obterLinkTemporario(string $pes_id)
+    public function show(string $pes_id)
     {
 
         $foto = FotoPessoa::where('pes_id', $pes_id)->first();
@@ -141,4 +262,44 @@ class FotoController extends Controller
             'url' => $url,
         ]);
     }
+
+    /**
+     *  @OA\DELETE(
+     *      path="/api/delete-foto-pessoa/{pes_id}",
+     *      summary="Deleta Foto Pessoa",
+     *      description="Remove Foto Pessoa",
+     *      tags={"FotoPessoa"},
+     *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da Pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Foto Pessoa Removida",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Foto Pessoa não encontrada"
+     *      ),
+     *     security={{"bearerAuth":{}}}
+     *  )
+     */
+    public function destroy(string $pes_id)
+    {
+        $fotoPessoa = FotoPessoa::where('pes_id', $pes_id)->first();
+        if (!$fotoPessoa) {
+            return response('Error', 404)->json(['message' => 'Foto pessoa não encontrada']);
+        } else {
+            $fotoPessoa->delete();
+        }
+        return response()->json(['message' => 'Foto pessoa Removida', 'fotoPessoa' => $fotoPessoa]);
+    }
+
+    
 }
