@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('lotacao', function (Blueprint $table) {
             $table->id();
-            $table->integer('lot_id')->uniqid();
+            $table->uuid('lot_id');
             $table->foreignId('pes_id')->constrained('pessoa');
             $table->foreignId('unid_id')->constrained('unidade');
             $table->date('lot_data_lotacao');

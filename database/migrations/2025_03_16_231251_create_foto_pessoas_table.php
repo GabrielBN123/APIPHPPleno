@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('foto_pessoa', function (Blueprint $table) {
             $table->id();
-            $table->integer('fp_id')->uniqid();
+            $table->uuid('fp_id')->uniqid();
             $table->foreignId('pes_id')->constrained('pessoa');
             $table->dateTime('fp_data');
             $table->string('fp_bucket');

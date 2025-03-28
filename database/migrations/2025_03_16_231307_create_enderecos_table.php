@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('endereco', function (Blueprint $table) {
             $table->id();
-            $table->integer('end_id')->uniqid();
+            $table->uuid('end_id')->uniqid();
             $table->string('end_tipo_logradouro');
             $table->string('end_logradouro');
             $table->integer('end_numero');

@@ -133,7 +133,12 @@
                             "application/json": {}
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/store-cidade": {
@@ -1845,6 +1850,82 @@
                 "summary": "Vincula torna pessoa em servidor efetivo",
                 "description": "Endpoint para vincular pessoa em servidor efetivo",
                 "operationId": "7899fc2a52cda1f941915ce5c8159270",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "se_matricula"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "se_matricula": {
+                                        "type": "string",
+                                        "example": "205400"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vínculo realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Vínculo realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro de validação"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cadastro-servidor-efetivo": {
+            "post": {
+                "tags": [
+                    "Servidor-Efetivo"
+                ],
+                "summary": "Vincula torna pessoa em servidor efetivo",
+                "description": "Endpoint para vincular pessoa em servidor efetivo",
+                "operationId": "5ee296afef75ef68a49c143a5f484dd1",
                 "requestBody": {
                     "required": true,
                     "content": {

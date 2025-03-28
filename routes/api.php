@@ -85,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function (){
     // SERVIDOR EFETIVO
     Route::get('/servidor-efetivo', [ServidorEfetivoController::class, 'index']);
     Route::get('/show-servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'show']);
+    Route::post('/store-cadastro-servidor-efetivo', [ServidorEfetivoController::class, 'cadastroServidorEfetivo']);
     Route::post('/store-servidor-efetivo', [ServidorEfetivoController::class, 'store']);
     Route::put('/update-servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'update']);
     Route::delete('/delete-servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'destroy']);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('unidade', function (Blueprint $table) {
             $table->id();
-            $table->integer('unidade_id')->uniqid();
+            $table->uuid('unidade_id')->uniqid();
             $table->string('unid_nome');
             $table->string('unid_sigla');
             $table->timestamps();

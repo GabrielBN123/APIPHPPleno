@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pessoa', function (Blueprint $table) {
             $table->id();
-            $table->integer('pes_id')->uniqid();
+            $table->uuid('pes_id')->uniqid();
             $table->string('pes_nome');
             $table->date('pes_data_nascimento');
             $table->string('pes_sexo');

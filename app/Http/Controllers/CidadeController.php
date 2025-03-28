@@ -30,7 +30,7 @@ class CidadeController extends Controller
      *              mediaType="application/json",
      *          )
      *      ),
-     *
+     *      security={{"bearerAuth":{}}}
      *  )
      */
     public function index()
@@ -91,12 +91,12 @@ class CidadeController extends Controller
             'cid_uf' => 'required|string',
         ]);
 
-        $cidade = Cidade::where('pes_id', $request->pes_id)->first();
+        $cidade = Cidade::where('cid_id', $request->cid_id)->first();
         if (!$cidade) {
             $cidade = Cidade::create($valited);
         }
 
-        return response()->json(['message' => 'Pessoa cadastrada', 'cidade' => $cidade]);
+        return response()->json(['message' => 'Cidade cadastrada', 'cidade' => $cidade]);
     }
 
     /**
