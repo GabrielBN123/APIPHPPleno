@@ -11,5 +11,7 @@ class Unidade extends Model
 
     protected $table = 'unidade';
 
-    protected $fillable = ['unidade_id','unid_nome','unid_sigla'];
+    protected $primaryKey = 'unid_id';
+
+    protected $fillable = ['unid_nome','unid_sigla'];
 }

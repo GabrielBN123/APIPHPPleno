@@ -11,7 +11,9 @@ class FotoPessoa extends Model
 
     protected $table  = 'foto_pessoa';
 
-    protected $fillable = ['fp_id','pes_id','fp_data','fp_bucket','fp_hash'];
+    protected $primaryKey = 'fp_id';
+
+    protected $fillable = ['pes_id','fp_data','fp_bucket','fp_hash'];
 
     public function pessoa()
     {

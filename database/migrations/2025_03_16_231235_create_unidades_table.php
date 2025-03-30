@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('unidade', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('unidade_id')->uniqid();
+            $table->bigIncrements('unid_id')->primary();
             $table->string('unid_nome');
             $table->string('unid_sigla');
             $table->timestamps();

@@ -74,22 +74,6 @@ class AuthController extends Controller
     *     path="/api/refresh",
     *     summary="Renovar Token",
     *     tags={"Autenticação"},
-    *     @OA\Parameter(
-    *         name="email",
-    *         in="query",
-    *         description="User's email",
-    *         required=true,
-    *         example="test@example.com",
-    *         @OA\Schema(type="string")
-    *     ),
-    *     @OA\Parameter(
-    *         name="password",
-    *         in="query",
-    *         description="User's password",
-    *         required=true,
-    *         example="123456789a",
-    *         @OA\Schema(type="string")
-    *     ),
     *     @OA\Response(response="200", description="Login successful"),
     *     @OA\Response(response="401", description="Invalid credentials"),
     *     security={{"bearerAuth":{}}}

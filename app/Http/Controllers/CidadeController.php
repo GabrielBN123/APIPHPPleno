@@ -54,8 +54,7 @@ class CidadeController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"cid_id", "cid_nome", "cid_uf"},
-     *             @OA\Property(property="cid_id", type="integer", example=1),
+     *             required={"cid_nome", "cid_uf"},
      *             @OA\Property(property="cid_nome", type="string", example="Cuiabá"),
      *             @OA\Property(property="cid_uf", type="string", example="MT")
      *         )
@@ -86,12 +85,11 @@ class CidadeController extends Controller
         }
 
         $valited = $request->validate([
-            'cid_id' => 'required|integer',
             'cid_nome' => 'required|string',
             'cid_uf' => 'required|string',
         ]);
 
-        $cidade = Cidade::where('cid_id', $request->cid_id)->first();
+        $cidade = Cidade::where('cid_nome', $request->cid_nome)->first();
         if (!$cidade) {
             $cidade = Cidade::create($valited);
         }

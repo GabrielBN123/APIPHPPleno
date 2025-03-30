@@ -47,8 +47,7 @@ class PessoaController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"pes_id", "pes_nome", "pes_data_nascimento", "pes_sexo"},
-     *             @OA\Property(property="pes_id", type="integer", example=1),
+     *             required={"pes_nome", "pes_data_nascimento", "pes_sexo"},
      *             @OA\Property(property="pes_nome", type="string", example="João Silva"),
      *             @OA\Property(property="pes_data_nascimento", type="string", format="date", example="2000-05-15"),
      *             @OA\Property(property="pes_sexo", type="string", example="M"),

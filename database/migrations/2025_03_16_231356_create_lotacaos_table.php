@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lotacao', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('lot_id');
-            $table->foreignId('pes_id')->constrained('pessoa');
-            $table->foreignId('unid_id')->constrained('unidade');
+            $table->bigIncrements('lot_id')->primary();
+            $table->unsignedBigInteger('pes_id');
+            $table->foreign('pes_id')->references('pes_id')->on('pessoa');
+            $table->unsignedBigInteger('unid_id');
+            $table->foreign('unid_id')->references('unid_id')->on('unidade');
             $table->date('lot_data_lotacao');
             $table->date('lot_data_remocao')->nullable();
             $table->string('lot_portaria');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

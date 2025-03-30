@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('servidor_efetivo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pes_id')->constrained('pessoa');
+            $table->unsignedBigInteger('pes_id');
+            $table->foreign('pes_id')->references('pes_id')->on('pessoa');
             $table->string('se_matricula');
             $table->timestamps();
             $table->softDeletes();

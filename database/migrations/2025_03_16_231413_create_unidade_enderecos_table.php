@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('unidade_endereco', function (Blueprint $table) {
             $table->id();
-            $table->uuid('unid_id')->constrained('unidade');
-            $table->foreignId('end_id')->constrained('endereco');
+            $table->unsignedBigInteger('unid_id');
+            $table->unsignedBigInteger('end_id');
+            $table->foreign('unid_id')->references('unid_id')->on('unidade');
+            $table->foreign('end_id')->references('end_id')->on('endereco');
             $table->timestamps();
             $table->softDeletes();
         });

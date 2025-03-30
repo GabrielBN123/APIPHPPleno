@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('pessoa_endereco', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pes_id')->constrained('pessoa');
-            $table->foreignId('end_id')->constrained('endereco');
+            $table->unsignedBigInteger('pes_id');
+            $table->foreign('pes_id')->references('pes_id')->on('pessoa');
+            $table->unsignedBigInteger('end_id');
+            $table->foreign('end_id')->references('end_id')->on('endereco');
             $table->timestamps();
             $table->softDeletes();
         });

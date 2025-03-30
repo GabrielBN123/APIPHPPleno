@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('foto_pessoa', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('fp_id')->uniqid();
-            $table->foreignId('pes_id')->constrained('pessoa');
+            $table->bigIncrements('fp_id')->primary();
+            $table->unsignedBigInteger('pes_id');
+            $table->foreign('pes_id')->references('pes_id')->on('pessoa')->onDelete('cascade');
             $table->dateTime('fp_data');
             $table->string('fp_bucket');
             $table->string('fp_hash');

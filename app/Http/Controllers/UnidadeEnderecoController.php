@@ -49,10 +49,9 @@ class UnidadeEnderecoController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"unidade_id","st_data_admissao", "st_data_demissao"},
-     *             @OA\Property(property="unidade_id", type="integer", example="1"),
-     *             @OA\Property(property="unid_nome", type="string", example="Unidade do CPA II"),
-     *             @OA\Property(property="unid_sigla", type="string", example="GTCPAII"),
+     *             required={"unid_id","end_id"},
+     *             @OA\Property(property="unid_id", type="integer", example="1"),
+     *             @OA\Property(property="end_id", type="integer", example="1"),
      *         )
      *     ),
      *     @OA\Response(

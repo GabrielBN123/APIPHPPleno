@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cidade;
+use App\Models\Endereco;
 use App\Models\Pessoa;
+use App\Models\PessoaEndereco;
 use App\Models\ServidorEfetivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,104 +79,6 @@ class ServidorEfetivoController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'pes_id' => 'required',
-            'se_matricula' => 'required'
-        ]);
-
-        try {
-            DB::transaction(function () use ($validated, $request){
-                $servidor = ServidorEfetivo::where('pes_id', $request->pes_id)->first();
-                if(!$servidor){
-                    $servidor = ServidorEfetivo::create($validated);
-                }
-
-                return response()->json([
-                    'message' => 'Servidor Efetivo cadastrado!',
-                    'servidor' => $servidor,
-                ]);
-            });
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Ocorreu um erro',
-                'error' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    /**
-     * @OA\Post(
-     *     path="/api/cadastro-servidor-efetivo",
-     *     summary="Vincula torna pessoa em servidor efetivo",
-     *     description="Endpoint para vincular pessoa em servidor efetivo",
-     *     tags={"Servidor-Efetivo"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"pes_id","se_matricula"},
-     *             @OA\Property(property="pes_id", type="integer", example="1"),
-     *             @OA\Property(property="se_matricula", type="string", example="205400"),
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Vínculo realizado com sucesso!",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Vínculo realizado com sucesso!"),
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Erro na validação dos dados",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Erro de validação"),
-     *             @OA\Property(property="errors", type="object")
-     *         )
-     *     ),
-     *     security={{"bearerAuth":{}}}
-     *
-     * )
-     */
-    public function cadastroServidorEfetivo(Request $request)
-    {
-        try {
-
-            DB::transaction(function() use ($request){
-                $request->validate([
-                    'pes_nome' => 'required|string',
-                    'pes_data_nascimento' => 'required|date',
-                    'pes_sexo' => 'required|string',
-                    'pes_mae' => 'string',
-                    'pes_pai' => 'string',
-                ]);
-        
-                $pessoa = Pessoa::where(['pes_nome' => $request->pes_nome, 'pes_data_nascimento' => $request->pes_data_nascimento])->first();
-                if (!$pessoa) {
-                    $pessoa = Pessoa::create([
-                        'pes_nome' => $request->pes_nome,
-                        'pes_data_nascimento' => $request->pes_data_nascimento,
-                        'pes_sexo' => $request->pes_sexo,
-                        'pes_mae' => $request->pes_mae,
-                        'pes_pai' => $request->pes_pai,
-                    ]);
-                }
-
-                $validateEndereco = $request->validate([
-                    'end_tipo_logradouro' => 'required|string',
-                    'end_logradouro' => 'required|string',
-                    'end_numero' => 'required|string',
-                    'end_bairro' => 'required|string',
-                    'cid_id' => 'required|integer',
-                ]);
-    
-                return response()->json(['message' => 'Pessoa cadastrada', 'pessoa' => $pessoa]);
-
-            });
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-
-
         $validated = $request->validate([
             'pes_id' => 'required',
             'se_matricula' => 'required'

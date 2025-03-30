@@ -49,8 +49,7 @@ class UnidadeController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"unidade_id","st_data_admissao", "st_data_demissao"},
-     *             @OA\Property(property="unidade_id", type="integer", example="1"),
+     *             required={"st_data_admissao", "st_data_demissao"},
      *             @OA\Property(property="unid_nome", type="string", example="Unidade do CPA II"),
      *             @OA\Property(property="unid_sigla", type="string", example="GTCPAII"),
      *         )
@@ -77,7 +76,6 @@ class UnidadeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'unidade_id' => 'required',
             'unid_nome' => 'required|string',
             'unid_sigla' => 'required|string',
         ]);

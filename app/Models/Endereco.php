@@ -11,5 +11,8 @@ class Endereco extends Model
 
     protected $table  = 'endereco';
 
-    protected $fillable = ['end_id','end_tipo_logradouro','end_logradouro','end_numero','end_bairro','cid_id'];
+    protected $primaryKey = 'end_id';
+
+
+    protected $fillable = ['end_tipo_logradouro','end_logradouro','end_numero','end_bairro','cid_id'];
 }

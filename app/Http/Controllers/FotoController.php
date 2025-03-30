@@ -84,7 +84,8 @@ class FotoController extends Controller
      *     @OA\Response(
      *         response=400,
      *         description="Erro na requisição"
-     *     )
+     *     ),
+     *      security={{"bearerAuth":{}}}
      * )
      */
     public function store(Request $request, string $pes_id)
@@ -168,7 +169,8 @@ class FotoController extends Controller
      *     @OA\Response(
      *         response=400,
      *         description="Erro na requisição"
-     *     )
+     *     ),
+     *      security={{"bearerAuth":{}}}
      * )
      */
     public function update(Request $request, string $pes_id)
@@ -217,7 +219,7 @@ class FotoController extends Controller
 
     /**
      * @OA\GET(
-     *     path="/api/get-foto/{pes_id}",
+     *     path="/api/show-foto-pessoa/{pes_id}",
      *     summary="Trazer foto do usuário com link temporário",
      *     description="Endpoint retornar link temporário da foto do usuário",
      *     tags={"FotoPessoa"},
@@ -235,7 +237,8 @@ class FotoController extends Controller
      *     @OA\Response(
      *         response=400,
      *         description="Erro na requisição"
-     *     )
+     *     ),
+     *      security={{"bearerAuth":{}}}
      * )
      */
     public function show(string $pes_id)
@@ -247,19 +250,19 @@ class FotoController extends Controller
             return response('Não encontrado', 404)->json();
         }
 
-        if (!Storage::disk('s3')->exists($foto->fp_hash)) {
-            return response()->json(['error' => 'Arquivo não encontrado no MinIO'], 404);
-        }
+        // if (!Storage::disk('s3')->exists($foto->fp_hash)) {
+        //     return response()->json(['error' => 'Arquivo não encontrado no MinIO'], 404);
+        // }
 
         $url = Storage::disk('s3')->temporaryUrl(
             $foto->fp_hash,
             now()->addMinutes(5)
         );
 
-        $url = str_replace('minio', 'localhost', $url);
+        $publicUrl = str_replace('http://minio:9000', 'http://arquivos.meusite.com', $url);
         return response()->json([
             'message' => 'Link temporário gerado com sucesso!',
-            'url' => $url,
+            'url' => $publicUrl,
         ]);
     }
 
@@ -301,5 +304,5 @@ class FotoController extends Controller
         return response()->json(['message' => 'Foto pessoa Removida', 'fotoPessoa' => $fotoPessoa]);
     }
 
-    
+
 }

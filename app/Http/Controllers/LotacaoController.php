@@ -49,8 +49,7 @@ class LotacaoController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"lot_id","pes_id","unid_id","lot_data_lotacao","lot_data_remocao","lot_portaria"},
-     *             @OA\Property(property="lot_id", type="integer", example=1),
+     *             required={"pes_id","unid_id","lot_data_lotacao","lot_data_remocao","lot_portaria"},
      *             @OA\Property(property="pes_id", type="integer", example="1"),
      *             @OA\Property(property="unid_id", type="integer", example="1"),
      *             @OA\Property(property="lot_data_lotacao", type="string", format="date", example="2024-05-15"),
@@ -84,7 +83,6 @@ class LotacaoController extends Controller
         }
 
         $valited = $request->validate([
-            'lot_id' => 'required|integer',
             'pes_id' => 'required|integer',
             'unid_id' => 'required|integer',
             'lot_data_lotacao' => 'required|date',

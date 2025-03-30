@@ -16,7 +16,7 @@ class Pessoa extends Model
     protected $table  = 'pessoa';
     protected $primaryKey = 'pes_id';
 
-    protected $fillable = ['pes_id', 'pes_nome', 'pes_data_nascimento', 'pes_sexo', 'pes_mae', 'pes_pai'];
+    protected $fillable = ['pes_nome', 'pes_data_nascimento', 'pes_sexo', 'pes_mae', 'pes_pai'];
 
     // 📸 Relacionamento com a FotoPessoa (1 para 1)
     public function foto()

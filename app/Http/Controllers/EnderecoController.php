@@ -49,8 +49,7 @@ class EnderecoController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"end_id","end_tipo_logradouro","end_logradouro","end_numero","end_bairro","cid_id"},
-     *             @OA\Property(property="end_id", type="integer", example=1),
+     *             required={"end_tipo_logradouro","end_logradouro","end_numero","end_bairro","cid_id"},
      *             @OA\Property(property="end_tipo_logradouro", type="string", example="rua ficticia"),
      *             @OA\Property(property="end_logradouro", type="string", example="logradouro"),
      *             @OA\Property(property="end_numero", type="string", example="01"),
@@ -84,7 +83,6 @@ class EnderecoController extends Controller
         }
 
         $valited = $request->validate([
-            'end_id' => 'required|integer',
             'end_tipo_logradouro' => 'required|string',
             'end_logradouro' => 'required|string',
             'end_numero' => 'required|string',

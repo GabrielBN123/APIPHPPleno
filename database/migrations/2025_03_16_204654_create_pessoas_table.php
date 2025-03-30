@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pessoa', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('pes_id')->uniqid();
+            $table->bigIncrements('pes_id')->primary();
             $table->string('pes_nome');
             $table->date('pes_data_nascimento');
             $table->string('pes_sexo');

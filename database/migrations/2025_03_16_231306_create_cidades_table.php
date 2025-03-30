@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cidade', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('cid_id')->uniqid();
+            $table->bigIncrements('cid_id')->primary();
             $table->string('cid_nome');
             $table->string('cid_uf', 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

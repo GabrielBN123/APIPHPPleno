@@ -73,28 +73,6 @@
                 ],
                 "summary": "Renovar Token",
                 "operationId": "2c27d311a2876560fcb5a754b556cdc5",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "description": "User's email",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "test@example.com"
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "User's password",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "123456789a"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Login successful"
@@ -155,15 +133,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "cid_id",
                                     "cid_nome",
                                     "cid_uf"
                                 ],
                                 "properties": {
-                                    "cid_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "cid_nome": {
                                         "type": "string",
                                         "example": "Cuiabá"
@@ -428,7 +401,6 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "end_id",
                                     "end_tipo_logradouro",
                                     "end_logradouro",
                                     "end_numero",
@@ -436,10 +408,6 @@
                                     "cid_id"
                                 ],
                                 "properties": {
-                                    "end_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "end_tipo_logradouro": {
                                         "type": "string",
                                         "example": "rua ficticia"
@@ -788,7 +756,12 @@
                     "400": {
                         "description": "Erro na requisição"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/update-foto-pessoa/{pes_id}": {
@@ -857,17 +830,22 @@
                     "400": {
                         "description": "Erro na requisição"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/api/get-foto/{pes_id}": {
+        "/api/show-foto-pessoa/{pes_id}": {
             "get": {
                 "tags": [
                     "FotoPessoa"
                 ],
                 "summary": "Trazer foto do usuário com link temporário",
                 "description": "Endpoint retornar link temporário da foto do usuário",
-                "operationId": "08111e2aae7d0f3ee6d947f5897d1285",
+                "operationId": "19c7f0807e5ef32c1a56a657688073e7",
                 "parameters": [
                     {
                         "name": "pes_id",
@@ -887,7 +865,12 @@
                     "400": {
                         "description": "Erro na requisição"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/delete-foto-pessoa/{pes_id}": {
@@ -973,7 +956,6 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "lot_id",
                                     "pes_id",
                                     "unid_id",
                                     "lot_data_lotacao",
@@ -981,10 +963,6 @@
                                     "lot_portaria"
                                 ],
                                 "properties": {
-                                    "lot_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "pes_id": {
                                         "type": "integer",
                                         "example": "1"
@@ -1287,16 +1265,11 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "pes_id",
                                     "pes_nome",
                                     "pes_data_nascimento",
                                     "pes_sexo"
                                 ],
                                 "properties": {
-                                    "pes_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "pes_nome": {
                                         "type": "string",
                                         "example": "João Silva"
@@ -1921,10 +1894,10 @@
         "/api/cadastro-servidor-efetivo": {
             "post": {
                 "tags": [
-                    "Servidor-Efetivo"
+                    "Registro Geral"
                 ],
-                "summary": "Vincula torna pessoa em servidor efetivo",
-                "description": "Endpoint para vincular pessoa em servidor efetivo",
+                "summary": "Cadastrar Servidor Efetivo",
+                "description": "Endpoint Cadastrar um servidor Efetivo completo",
                 "operationId": "5ee296afef75ef68a49c143a5f484dd1",
                 "requestBody": {
                     "required": true,
@@ -1932,17 +1905,56 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "pes_id",
-                                    "se_matricula"
+                                    "pes_nome",
+                                    "pes_data_nascimento",
+                                    "pes_sexo",
+                                    "pes_mae",
+                                    "pes_pai"
                                 ],
                                 "properties": {
-                                    "pes_id": {
-                                        "type": "integer",
-                                        "example": "1"
-                                    },
-                                    "se_matricula": {
+                                    "pes_nome": {
                                         "type": "string",
-                                        "example": "205400"
+                                        "example": "João Silva"
+                                    },
+                                    "pes_data_nascimento": {
+                                        "type": "string",
+                                        "example": "2000-05-16"
+                                    },
+                                    "pes_sexo": {
+                                        "type": "string",
+                                        "example": "Masculino"
+                                    },
+                                    "pes_mae": {
+                                        "type": "string",
+                                        "example": "Rodrigo Silva"
+                                    },
+                                    "pes_pai": {
+                                        "type": "string",
+                                        "example": "Rosane Silva"
+                                    },
+                                    "cid_nome": {
+                                        "type": "string",
+                                        "example": "Cuiabá"
+                                    },
+                                    "cid_uf": {
+                                        "type": "string",
+                                        "example": "MT"
+                                    },
+                                    "end_tipo_logradouro": {
+                                        "type": "string",
+                                        "example": "Casa"
+                                    },
+                                    "end_logradouro": {
+                                        "type": "string",
+                                        "example": "Rua 37"
+                                    },
+                                    "end_numero": {
+                                        "type": "string",
+                                        "example": "245"
+                                    },
+                                    "end_bairro": {
+                                        "type": "string",
+                                        "example": "CPA II"
                                     }
                                 },
                                 "type": "object"
@@ -2463,15 +2475,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "unidade_id",
                                     "st_data_admissao",
                                     "st_data_demissao"
                                 ],
                                 "properties": {
-                                    "unidade_id": {
-                                        "type": "integer",
-                                        "example": "1"
-                                    },
                                     "unid_nome": {
                                         "type": "string",
                                         "example": "Unidade do CPA II"
@@ -2732,22 +2739,17 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "unidade_id",
-                                    "st_data_admissao",
-                                    "st_data_demissao"
+                                    "unid_id",
+                                    "end_id"
                                 ],
                                 "properties": {
-                                    "unidade_id": {
+                                    "unid_id": {
                                         "type": "integer",
                                         "example": "1"
                                     },
-                                    "unid_nome": {
-                                        "type": "string",
-                                        "example": "Unidade do CPA II"
-                                    },
-                                    "unid_sigla": {
-                                        "type": "string",
-                                        "example": "GTCPAII"
+                                    "end_id": {
+                                        "type": "integer",
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -2998,6 +3000,10 @@
         {
             "name": "Servidor-Efetivo",
             "description": "Servidor-Efetivo"
+        },
+        {
+            "name": "Registro Geral",
+            "description": "Registro Geral"
         },
         {
             "name": "Servidor-Temporario",
