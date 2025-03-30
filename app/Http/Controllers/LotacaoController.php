@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lotacao;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LotacaoController extends Controller
 {
@@ -133,6 +135,62 @@ class LotacaoController extends Controller
             return response('Não encontrado', 404)->json();
         }
         return response()->json(['message' => 'Lotação encontrada', 'lotacao' => $lotacao]);
+    }
+
+    /**
+     *  @OA\GET(
+     *      path="/api/consulta-unidade/{unid_id}",
+     *      summary="Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia;",
+     *      description="Show Lotação",
+     *      tags={"Lotação"},
+     *     @OA\Parameter(
+     *         name="unid_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da Unidade",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Lotação Encontrada",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Lotação não encontrada"
+     *      ),
+     *     security={{"bearerAuth":{}}}
+     *  )
+     */
+    public function showByUnidade(string $unid_id)
+    {
+        $lotacoes = Lotacao::with(['pessoa.foto', 'unidade'])
+        ->where('unid_id', $unid_id)
+        ->paginate(10); // Paginação com 10 registros por página
+
+        // Transformando os dados para incluir idade e link da foto
+        $data = $lotacoes->map(function ($lotacao) {
+            return [
+                'nome' => $lotacao->pessoa->pes_nome,
+                'idade' => Carbon::parse($lotacao->pessoa->pes_data_nascimento)->age,
+                'unidade_lotacao' => $lotacao->unidade->unid_nome,
+                'fotografia' => $lotacao->pessoa->foto
+                    ? Storage::disk('minio')->temporaryUrl($lotacao->pessoa->foto->fp_hash, now()->addMinutes(30))
+                    : null,
+            ];
+        });
+
+        return response()->json([
+            'data' => $data,
+            'pagination' => [
+                'current_page' => $lotacoes->currentPage(),
+                'last_page' => $lotacoes->lastPage(),
+                'per_page' => $lotacoes->perPage(),
+                'total' => $lotacoes->total(),
+            ],
+        ]);
     }
 
     /**

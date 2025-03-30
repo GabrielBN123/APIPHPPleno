@@ -259,17 +259,13 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "cid_id": {
-                                        "type": "string",
-                                        "example": "M"
-                                    },
                                     "cid_nome": {
                                         "type": "string",
-                                        "example": "Maria Silva"
+                                        "example": "Rondonopoliss"
                                     },
                                     "cid_uf": {
                                         "type": "string",
-                                        "example": "José Silva"
+                                        "example": "MT"
                                     }
                                 },
                                 "type": "object"
@@ -292,7 +288,7 @@
                                             "properties": {
                                                 "cid_nome": {
                                                     "type": "string",
-                                                    "example": "Cuiabá"
+                                                    "example": "Rondonopoliss"
                                                 },
                                                 "cid_uf": {
                                                     "type": "string",
@@ -478,14 +474,14 @@
                 ]
             }
         },
-        "/api/show-endereço/{end_id}": {
+        "/api/show-endereco/{end_id}": {
             "get": {
                 "tags": [
                     "Endereço"
                 ],
                 "summary": "Show Endereço",
                 "description": "Show Endereço",
-                "operationId": "d15701c20cd588174af0849af021a327",
+                "operationId": "8b0464b7b5dd7a9ffd66480c2fff0e9d",
                 "parameters": [
                     {
                         "name": "end_id",
@@ -544,11 +540,11 @@
                                 "properties": {
                                     "end_tipo_logradouro": {
                                         "type": "string",
-                                        "example": "rua ficticia"
+                                        "example": "Rua"
                                     },
                                     "end_logradouro": {
                                         "type": "string",
-                                        "example": "logradouro"
+                                        "example": "Rua 15"
                                     },
                                     "end_numero": {
                                         "type": "string",
@@ -1048,6 +1044,44 @@
                         "name": "lot_id",
                         "in": "path",
                         "description": "ID da Lotação",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lotação Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Lotação não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/consulta-unidade/{unid_id}": {
+            "get": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "Show Lotação",
+                "description": "Show Lotação",
+                "operationId": "4e0e01de55655efcddda7dd1f19ace56",
+                "parameters": [
+                    {
+                        "name": "unid_id",
+                        "in": "path",
+                        "description": "ID da Unidade",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -1840,121 +1874,6 @@
                                     "se_matricula": {
                                         "type": "string",
                                         "example": "205400"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Vínculo realizado com sucesso!",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Vínculo realizado com sucesso!"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erro na validação dos dados",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Erro de validação"
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/cadastro-servidor-efetivo": {
-            "post": {
-                "tags": [
-                    "Registro Geral"
-                ],
-                "summary": "Cadastrar Servidor Efetivo",
-                "description": "Endpoint Cadastrar um servidor Efetivo completo",
-                "operationId": "5ee296afef75ef68a49c143a5f484dd1",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "pes_nome",
-                                    "pes_data_nascimento",
-                                    "pes_sexo",
-                                    "pes_mae",
-                                    "pes_pai"
-                                ],
-                                "properties": {
-                                    "pes_nome": {
-                                        "type": "string",
-                                        "example": "João Silva"
-                                    },
-                                    "pes_data_nascimento": {
-                                        "type": "string",
-                                        "example": "2000-05-16"
-                                    },
-                                    "pes_sexo": {
-                                        "type": "string",
-                                        "example": "Masculino"
-                                    },
-                                    "pes_mae": {
-                                        "type": "string",
-                                        "example": "Rodrigo Silva"
-                                    },
-                                    "pes_pai": {
-                                        "type": "string",
-                                        "example": "Rosane Silva"
-                                    },
-                                    "cid_nome": {
-                                        "type": "string",
-                                        "example": "Cuiabá"
-                                    },
-                                    "cid_uf": {
-                                        "type": "string",
-                                        "example": "MT"
-                                    },
-                                    "end_tipo_logradouro": {
-                                        "type": "string",
-                                        "example": "Casa"
-                                    },
-                                    "end_logradouro": {
-                                        "type": "string",
-                                        "example": "Rua 37"
-                                    },
-                                    "end_numero": {
-                                        "type": "string",
-                                        "example": "245"
-                                    },
-                                    "end_bairro": {
-                                        "type": "string",
-                                        "example": "CPA II"
                                     }
                                 },
                                 "type": "object"
@@ -3000,10 +2919,6 @@
         {
             "name": "Servidor-Efetivo",
             "description": "Servidor-Efetivo"
-        },
-        {
-            "name": "Registro Geral",
-            "description": "Registro Geral"
         },
         {
             "name": "Servidor-Temporario",

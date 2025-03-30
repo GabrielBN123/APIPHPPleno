@@ -150,9 +150,8 @@ class CidadeController extends Controller
      *     @OA\RequestBody(
      *         required=false,
      *         @OA\JsonContent(
-     *             @OA\Property(property="cid_id", type="string", example="M"),
-     *             @OA\Property(property="cid_nome", type="string", example="Maria Silva"),
-     *             @OA\Property(property="cid_uf", type="string", example="José Silva")
+     *             @OA\Property(property="cid_nome", type="string", example="Rondonopoliss"),
+     *             @OA\Property(property="cid_uf", type="string", example="MT")
      *         )
      *     ),
      *     @OA\Response(
@@ -161,7 +160,7 @@ class CidadeController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Cidade atualizada com sucesso"),
      *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="cid_nome", type="string", example="Cuiabá"),
+     *                 @OA\Property(property="cid_nome", type="string", example="Rondonopoliss"),
      *                 @OA\Property(property="cid_uf", type="string", example="MT")
      *             )
      *         )

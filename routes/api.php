@@ -35,15 +35,16 @@ Route::middleware('auth:sanctum')->group(function (){
 
     // Logout (revoga token)
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
     // Renovação do Token
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    
+
     // CIDADE
     Route::get('/cidade', [CidadeController::class, 'index']);
     Route::get('/show-cidade/{cid_id}', [CidadeController::class, 'show']);
     Route::post('/store-cidade', [CidadeController::class, 'store']);
     Route::put('/update-cidade/{cid_id}', [CidadeController::class, 'update']);
+    Route::delete('/delete-cidade/{cid_id}', [CidadeController::class, 'destroy']);
 
     // ENDEREÇO
     Route::get('/endereco', [EnderecoController::class, 'index']);
@@ -58,12 +59,13 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('/store-foto-pessoa/{pes_id}', [FotoController::class, 'store']);
     Route::put('/update-foto-pessoa/{pes_id}', [FotoController::class, 'update']);
     Route::delete('/delete-foto-pessoa/{pes_id}', [FotoController::class, 'destroy']);
-    
+
     // Route::get('/fotos/get-foto/{pes_id}', [FotoController::class, 'obterLinkTemporario']);
 
     // LOTAÇÃO
     Route::get('/lotacao', [LotacaoController::class, 'index']);
     Route::get('/show-lotacao/{lot_id}', [LotacaoController::class, 'show']);
+    Route::get('/consulta-unidade/{unid_id}', [LotacaoController::class, 'showByUnidade']);
     Route::post('/store-lotacao', [LotacaoController::class, 'store']);
     Route::put('/update-lotacao/{lot_id}', [LotacaoController::class, 'update']);
     Route::delete('/delete-lotacao/{lot_id}', [LotacaoController::class, 'destroy']);

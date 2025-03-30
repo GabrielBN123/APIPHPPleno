@@ -100,7 +100,7 @@ class EnderecoController extends Controller
 
     /**
      *  @OA\GET(
-     *      path="/api/show-endereço/{end_id}",
+     *      path="/api/show-endereco/{end_id}",
      *      summary="Show Endereço",
      *      description="Show Endereço",
      *      tags={"Endereço"},
@@ -151,8 +151,8 @@ class EnderecoController extends Controller
      *     @OA\RequestBody(
      *         required=false,
      *         @OA\JsonContent(
-     *             @OA\Property(property="end_tipo_logradouro", type="string", example="rua ficticia"),
-     *             @OA\Property(property="end_logradouro", type="string", example="logradouro"),
+     *             @OA\Property(property="end_tipo_logradouro", type="string", example="Rua"),
+     *             @OA\Property(property="end_logradouro", type="string", example="Rua 15"),
      *             @OA\Property(property="end_numero", type="string", example="01"),
      *             @OA\Property(property="end_bairro", type="string", example="CPA III"),
      *             @OA\Property(property="cid_id", type="string", example="1")
