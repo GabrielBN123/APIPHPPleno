@@ -31,9 +31,14 @@ class Pessoa extends Model
     }
 
     // 🏛 Relacionamento com Lotação (1 para N)
+    // public function lotacoes()
+    // {
+    //     return $this->hasMany(Lotacao::class, 'pes_id', 'pes_id');
+    // }
+    // 🏛 Relacionamento com Lotação (1 para N)
     public function lotacoes()
     {
-        return $this->hasMany(Lotacao::class, 'pes_id', 'pes_id');
+        return $this->hasOne(Lotacao::class, 'pes_id', 'pes_id');
     }
 
     // 📜 Relacionamento com Servidor Efetivo (1 para 1)

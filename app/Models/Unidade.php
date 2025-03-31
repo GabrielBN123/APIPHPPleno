@@ -14,4 +14,9 @@ class Unidade extends Model
     protected $primaryKey = 'unid_id';
 
     protected $fillable = ['unid_nome','unid_sigla'];
+
+    public function endereco()
+    {
+        return $this->hasOne(UnidadeEndereco::class, 'unid_id', 'unid_id');
+    }
 }

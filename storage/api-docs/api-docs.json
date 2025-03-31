@@ -1074,7 +1074,7 @@
                 "tags": [
                     "Lotação"
                 ],
-                "summary": "Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia;",
+                "summary": "Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia; ",
                 "description": "Show Lotação",
                 "operationId": "4e0e01de55655efcddda7dd1f19ace56",
                 "parameters": [
@@ -1089,6 +1089,48 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Lotação Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Lotação não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/consulta-lotacao-nome/": {
+            "post": {
+                "tags": [
+                    "Lotação"
+                ],
+                "summary": "Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia pelo nome parcial do servidor.",
+                "description": "Show Lotação",
+                "operationId": "a2e17fe1a8cf65cc3a80756c5e94453f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pes_nome": {
+                                        "type": "string",
+                                        "example": "Joã"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Lotação Encontrada",

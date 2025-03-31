@@ -56,10 +56,10 @@ return [
             'url' => env('AWS_URL', 'http://localhost:9003'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
-            'throw' => false,
+            'throw' => true,
             'report' => false,
             'options' => [
-                'http' => [
+                'stream' => [
                         'verify' => false,
                 ],
             ],

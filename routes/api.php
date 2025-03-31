@@ -66,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('/lotacao', [LotacaoController::class, 'index']);
     Route::get('/show-lotacao/{lot_id}', [LotacaoController::class, 'show']);
     Route::get('/consulta-unidade/{unid_id}', [LotacaoController::class, 'showByUnidade']);
+    Route::post('/consulta-lotacao-nome/', [LotacaoController::class, 'showByNome']);
     Route::post('/store-lotacao', [LotacaoController::class, 'store']);
     Route::put('/update-lotacao/{lot_id}', [LotacaoController::class, 'update']);
     Route::delete('/delete-lotacao/{lot_id}', [LotacaoController::class, 'destroy']);

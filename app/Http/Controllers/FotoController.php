@@ -265,8 +265,8 @@ class FotoController extends Controller
             now()->addMinutes(5)
         );
 
-        $url = str_replace(env('AWS_ENDPOINT'), env('AWS_PUBLIC_URL'), $url);
-        // $url = str_replace('http://minio:9000', 'http://localhost:9003/', $url);
+        // $url = str_replace(env('AWS_ENDPOINT'), env('AWS_PUBLIC_URL'), $url);
+        // $url = str_replace('http://minio:9000', 'http://localhost:9000/', $url);
         return response()->json([
             'message' => 'Link temporário gerado com sucesso!',
             'url' => $url,

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lotacao;
+use App\Models\Pessoa;
+use App\Models\ServidorEfetivo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -140,7 +142,7 @@ class LotacaoController extends Controller
     /**
      *  @OA\GET(
      *      path="/api/consulta-unidade/{unid_id}",
-     *      summary="Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia;",
+     *      summary="Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia; ",
      *      description="Show Lotação",
      *      tags={"Lotação"},
      *     @OA\Parameter(
@@ -189,6 +191,66 @@ class LotacaoController extends Controller
                 'last_page' => $lotacoes->lastPage(),
                 'per_page' => $lotacoes->perPage(),
                 'total' => $lotacoes->total(),
+            ],
+        ]);
+    }
+
+    /**
+     *  @OA\POST(
+     *      path="/api/consulta-lotacao-nome/",
+     *      summary="Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia pelo nome parcial do servidor.",
+     *      description="Show Lotação",
+     *      tags={"Lotação"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="pes_nome", type="string", example="Joã")
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Lotação Encontrada",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Lotação não encontrada"
+     *      ),
+     *     security={{"bearerAuth":{}}}
+     *  )
+     */
+    public function showByNome(Request $request)
+    {
+        // $lotacoes = Lotacao::with(['pessoa.foto', 'unidade'])
+        // ->where('unid_id', $unid_id)
+        // ->paginate(10); 
+
+        $servidores = ServidorEfetivo::with('pessoa.lotacoes.unidade.endereco.endereco')->whereHas('pessoa', function($q) use($request){
+            $q->where('pes_nome', 'ilike', '%' . $request->pes_nome . '%');
+        })->paginate(15);
+
+        // Transformando os dados para incluir idade e link da foto
+        $data = $servidores->map(function ($servidores) {
+            return [
+                'nome' => $servidores->pessoa->pes_nome,
+                'idade' => Carbon::parse($servidores->pessoa->pes_data_nascimento)->age,
+                'unidade_lotacao' => $servidores->pessoa->lotacoes->unidade->unid_nome,
+                'endereco' => $servidores->pessoa->lotacoes->unidade->endereco->endereco->end_logradouro,
+                'fotografia' => $servidores->pessoa->foto
+                    ? Storage::disk('s3')->temporaryUrl($servidores->pessoa->foto->fp_hash, now()->addMinutes(30))
+                    : null,
+            ];
+        });
+
+        return response()->json([
+            'data' => $data,
+            'pagination' => [
+                'current_page' => $servidores->currentPage(),
+                'last_page' => $servidores->lastPage(),
+                'per_page' => $servidores->perPage(),
+                'total' => $servidores->total(),
             ],
         ]);
     }
