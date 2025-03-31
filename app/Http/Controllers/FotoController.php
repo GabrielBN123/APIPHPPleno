@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\FotoPessoa;
 use App\Models\Pessoa;
 use Carbon\Carbon;
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class FotoController extends Controller
 {
@@ -260,16 +262,21 @@ class FotoController extends Controller
             return response()->json(['error' => 'Arquivo não encontrado no MinIO'], 404);
         }
 
-        $url = Storage::disk('s3')->temporaryUrl(
-            $foto->fp_hash,
-            now()->addMinutes(5)
+        $file = Storage::disk('s3')->get($foto->fp_hash);
+        $fotoreplace = str_replace('fotos/uploads/', '', $foto->fp_hash);
+        Storage::disk('local')->put("public/exported/$fotoreplace", $file);
+        
+        $tempUrl = URL::temporarySignedRoute(
+            'exported.file', 
+            now()->addMinutes(5), 
+            ['filename' => $fotoreplace]
         );
 
         // $url = str_replace(env('AWS_ENDPOINT'), env('AWS_PUBLIC_URL'), $url);
         // $url = str_replace('http://minio:9000', 'http://localhost:9000/', $url);
         return response()->json([
             'message' => 'Link temporário gerado com sucesso!',
-            'url' => $url,
+            'url' => $tempUrl,
         ]);
     }
 

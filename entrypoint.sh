@@ -8,6 +8,9 @@ composer install
 echo "🏗  Gerando SWAGGER"
 php artisan l5-swagger:generate
 
+echo "🏗  Gerando SWAGGER"
+php artisan storage:link
+
 echo "🏗  Inicializando o ambiente..."
 
 # Garante que o .env existe, mas sem sobrescrever se já foi criado

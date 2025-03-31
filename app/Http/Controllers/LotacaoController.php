@@ -8,6 +8,7 @@ use App\Models\ServidorEfetivo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class LotacaoController extends Controller
 {
@@ -174,13 +175,23 @@ class LotacaoController extends Controller
 
         // Transformando os dados para incluir idade e link da foto
         $data = $lotacoes->map(function ($lotacao) {
+            if ($lotacao->pessoa->foto) {
+                $file = Storage::disk('s3')->get($lotacao->pessoa->foto->fp_hash);
+                $fotoreplace = str_replace('fotos/uploads/', '', $lotacao->pessoa->foto->fp_hash);
+                Storage::disk('local')->put("public/exported/$fotoreplace", $file);
+                
+                $tempUrl = URL::temporarySignedRoute(
+                    'exported.file', 
+                    now()->addMinutes(5), 
+                    ['filename' => $fotoreplace]
+                );
+            }
+
             return [
                 'nome' => $lotacao->pessoa->pes_nome,
                 'idade' => Carbon::parse($lotacao->pessoa->pes_data_nascimento)->age,
                 'unidade_lotacao' => $lotacao->unidade->unid_nome,
-                'fotografia' => $lotacao->pessoa->foto
-                    ? Storage::disk('s3')->temporaryUrl($lotacao->pessoa->foto->fp_hash, now()->addMinutes(30))
-                    : null,
+                'fotografia' => $tempUrl ?? null,
             ];
         });
 
@@ -233,14 +244,23 @@ class LotacaoController extends Controller
 
         // Transformando os dados para incluir idade e link da foto
         $data = $servidores->map(function ($servidores) {
+
+            $file = Storage::disk('s3')->get($servidores->pessoa->foto->fp_hash);
+            $fotoreplace = str_replace('fotos/uploads/', '', $servidores->pessoa->foto->fp_hash);
+            Storage::disk('local')->put("public/exported/$fotoreplace", $file);
+            
+            $tempUrl = URL::temporarySignedRoute(
+                'exported.file', 
+                now()->addMinutes(5), 
+                ['filename' => $fotoreplace]
+            );
+
             return [
                 'nome' => $servidores->pessoa->pes_nome,
                 'idade' => Carbon::parse($servidores->pessoa->pes_data_nascimento)->age,
                 'unidade_lotacao' => $servidores->pessoa->lotacoes->unidade->unid_nome,
                 'endereco' => $servidores->pessoa->lotacoes->unidade->endereco->endereco->end_logradouro,
-                'fotografia' => $servidores->pessoa->foto
-                    ? Storage::disk('s3')->temporaryUrl($servidores->pessoa->foto->fp_hash, now()->addMinutes(30))
-                    : null,
+                'fotografia' => $tempUrl ?? null,
             ];
         });
 
