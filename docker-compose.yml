@@ -88,7 +88,7 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
-      - "80:80"
+      - "9003:80"
     depends_on:
       - minio
     volumes:

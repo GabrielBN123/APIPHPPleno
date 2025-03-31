@@ -177,7 +177,7 @@ class LotacaoController extends Controller
                 'idade' => Carbon::parse($lotacao->pessoa->pes_data_nascimento)->age,
                 'unidade_lotacao' => $lotacao->unidade->unid_nome,
                 'fotografia' => $lotacao->pessoa->foto
-                    ? Storage::disk('minio')->temporaryUrl($lotacao->pessoa->foto->fp_hash, now()->addMinutes(30))
+                    ? Storage::disk('s3')->temporaryUrl($lotacao->pessoa->foto->fp_hash, now()->addMinutes(30))
                     : null,
             ];
         });

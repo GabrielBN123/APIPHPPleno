@@ -108,12 +108,18 @@ class FotoController extends Controller
 
             if(!$foto){
                 $foto = FotoPessoa::create([
-                    'fp_id' => $pes_id,
                     'pes_id' => $pes_id,
                     'fp_data' => Carbon::now(),
                     'fp_bucket' => env('AWS_BUCKET'),
                     'fp_hash' => $path,
                 ]);
+            }else{
+                $foto->update([
+                    'fp_data' => Carbon::now(),
+                    'fp_bucket' => env('AWS_BUCKET'),
+                    'fp_hash' => $path,
+                ]);
+
             }
 
             return response()->json([
@@ -250,19 +256,20 @@ class FotoController extends Controller
             return response('Não encontrado', 404)->json();
         }
 
-        // if (!Storage::disk('s3')->exists($foto->fp_hash)) {
-        //     return response()->json(['error' => 'Arquivo não encontrado no MinIO'], 404);
-        // }
+        if (!Storage::disk('s3')->exists($foto->fp_hash)) {
+            return response()->json(['error' => 'Arquivo não encontrado no MinIO'], 404);
+        }
 
         $url = Storage::disk('s3')->temporaryUrl(
             $foto->fp_hash,
             now()->addMinutes(5)
         );
 
-        $publicUrl = str_replace('http://minio:9000', 'http://arquivos.meusite.com', $url);
+        $url = str_replace(env('AWS_ENDPOINT'), env('AWS_PUBLIC_URL'), $url);
+        // $url = str_replace('http://minio:9000', 'http://localhost:9003/', $url);
         return response()->json([
             'message' => 'Link temporário gerado com sucesso!',
-            'url' => $publicUrl,
+            'url' => $url,
         ]);
     }
 

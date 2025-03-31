@@ -1074,7 +1074,7 @@
                 "tags": [
                     "Lotação"
                 ],
-                "summary": "Show Lotação",
+                "summary": "Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia;",
                 "description": "Show Lotação",
                 "operationId": "4e0e01de55655efcddda7dd1f19ace56",
                 "parameters": [
