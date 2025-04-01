@@ -1,36 +1,59 @@
-# API REST com Laravel, Docker, PostgreSQL e Min.io
+# API PHP - Laravel + Docker + PostgreSQL + Min.io
 
-## Visão Geral
-Este projeto é uma API REST desenvolvida em Laravel, utilizando Docker para containerização, PostgreSQL como banco de dados e Min.io para armazenamento de arquivos. A API inclui autenticação com Sanctum, operações CRUD e geração de links temporários para imagens.
+## Dados da Inscrição
+
+**Número:** 8358  
+**Desenvolvedor:** GABRIEL BATISTA DA SILVA NOGUEIRA
 
 ## Tecnologias Utilizadas
+
 - Laravel
 - Docker
 - PostgreSQL
 - Min.io
 - Sanctum para autenticação
 
-## Instalação e Configuração
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/GabrielBN123/APIPHP.git
-   cd APIPHP
-   ```
-2. Configure o arquivo `.env` com as credenciais do banco de dados e do Min.io.
-3. Execute os containers com Docker:
-   ```bash
-   docker-compose up -d
-   ```
-   **Nota:** Esse processo pode levar alguns minutos, pois todas as dependências do Laravel serão instaladas automaticamente.
-4. Execute as migrações do banco de dados:
-   ```bash
-   docker exec -it nome_do_container php artisan migrate
-   ```
-   **Nota:** Esse processo também pode demorar, pois todas as tabelas serão criadas no banco de dados.
-5. Inicie a aplicação:
-   ```bash
-   docker exec -it nome_do_container php artisan serve
-   ```
+## Instalação e Execução
+
+### Clonar o repositório
+
+```sh
+https://github.com/GabrielBN123/APIPHP.git
+```
+
+### Acessar a página do projeto
+
+```sh
+cd APIPHP
+```
+
+### Executar os comandos de instalação
+
+```sh
+composer install
+php artisan storage:link
+php artisan l5-swagger:generate
+```
+
+### Iniciar o Docker
+
+```sh
+docker-compose up --build
+```
+
+Aguardar até o sistema exibir:
+
+```sh
+INFO  Server running on [http://0.0.0.0:8181]
+```
+
+### Acessar o Swagger para testar a API
+
+[http://localhost:8181/api/documentation](http://localhost:8181/api/documentation)
+
+Para testar a API:
+- Acesse o endpoint de login e copie o token gerado.
+- O token é válido por 5 minutos.
 
 ## Rotas da API
 
@@ -108,3 +131,4 @@ Este projeto é uma API REST desenvolvida em Laravel, utilizando Docker para con
 - `POST /store-unidade-endereco` - Cria uma nova associação.
 - `PUT /update-unidade-endereco/{unid_id}` - Atualiza uma associação.
 - `DELETE /delete-unidade-endereco/{unid_id}` - Remove uma associação.
+
