@@ -76,7 +76,6 @@ class AuthController extends Controller
     *     tags={"Autenticação"},
     *     @OA\Response(response="200", description="Login successful"),
     *     @OA\Response(response="401", description="Invalid credentials"),
-    *     security={{"bearerAuth":{}}}
     * )
     */
     public function refresh(Request $request)

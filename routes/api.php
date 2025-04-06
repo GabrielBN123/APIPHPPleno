@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\URL;
 // Login (gera token)
 Route::post('/login', [AuthController::class, 'login']);
 
+// Renovação do Token
+Route::post('/refresh', [AuthController::class, 'refresh']);
 
 // Exemplo de rota protegida
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -36,9 +38,6 @@ Route::middleware('auth:sanctum')->group(function (){
 
     // Logout (revoga token)
     Route::post('/logout', [AuthController::class, 'logout']);
-
-    // Renovação do Token
-    Route::post('/refresh', [AuthController::class, 'refresh']);
 
     // CIDADE
     Route::get('/cidade', [CidadeController::class, 'index']);
