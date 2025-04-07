@@ -183,9 +183,11 @@ class FotoController extends Controller
      */
     public function update(Request $request, string $pes_id)
     {
+        return $pes_id;
         $request->validate([
             'foto' => 'required|image|',
         ]);
+
 
         $pessoa = Pessoa::where('pes_id', $pes_id)->first();
 
@@ -205,7 +207,6 @@ class FotoController extends Controller
             $path = $request->file('foto')->store('fotos/uploads', 's3');
 
             $foto = FotoPessoa::update([
-                'fp_id' => $pes_id,
                 'pes_id' => $pes_id,
                 'fp_data' => Carbon::now(),
                 'fp_bucket' => env('AWS_BUCKET'),
@@ -265,10 +266,10 @@ class FotoController extends Controller
         $file = Storage::disk('s3')->get($foto->fp_hash);
         $fotoreplace = str_replace('fotos/uploads/', '', $foto->fp_hash);
         Storage::disk('local')->put("public/exported/$fotoreplace", $file);
-        
+
         $tempUrl = URL::temporarySignedRoute(
-            'exported.file', 
-            now()->addMinutes(5), 
+            'exported.file',
+            now()->addMinutes(5),
             ['filename' => $fotoreplace]
         );
 

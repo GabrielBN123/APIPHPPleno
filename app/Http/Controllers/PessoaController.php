@@ -35,6 +35,9 @@ class PessoaController extends Controller
     public function index()
     {
         $pessoas = Pessoa::paginate(15);
+        if (!$pessoas) {
+            return response('Não encontrado', 404)->json();
+        }
         return response()->json($pessoas);
     }
 

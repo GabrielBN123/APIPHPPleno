@@ -53,7 +53,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::put('/update-endereco/{end_id}', [EnderecoController::class, 'update']);
     Route::delete('/delete-endereco/{end_id}', [EnderecoController::class, 'destroy']);
 
-    // ENDEREÇO
+    // FOTOPESSOA
     Route::get('/foto-pessoa', [FotoController::class, 'index']);
     Route::get('/show-foto-pessoa/{pes_id}', [FotoController::class, 'show']);
     Route::post('/store-foto-pessoa/{pes_id}', [FotoController::class, 'store']);

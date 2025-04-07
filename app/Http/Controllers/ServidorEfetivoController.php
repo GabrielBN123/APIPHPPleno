@@ -38,6 +38,9 @@ class ServidorEfetivoController extends Controller
     public function index()
     {
         $servidor = ServidorEfetivo::with('pessoa')->paginate(15);
+        if (!$servidor) {
+            return response('Não encontrado', 404)->json();
+        }
         return response()->json([
             'message' => 'Servidores encontrados',
             'servidor' => $servidor,

@@ -34,6 +34,9 @@ class UnidadeEnderecoController extends Controller
     public function index()
     {
         $unidade = UnidadeEndereco::paginate(15);
+        if (!$unidade) {
+            return response('Não encontrado', 404)->json();
+        }
         return response()->json([
             'message' => 'Unidades encontradas',
             'unidade' => $unidade,

@@ -95,7 +95,7 @@ class EnderecoController extends Controller
             $endereco = Endereco::create($valited);
         }
 
-        return response()->json(['message' => 'Endereço cadastrada', 'endereco' => $endereco]);
+        return response()->json(['message' => 'Endereço cadastrado', 'endereco' => $endereco]);
     }
 
     /**

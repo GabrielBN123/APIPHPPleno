@@ -179,10 +179,10 @@ class LotacaoController extends Controller
                 $file = Storage::disk('s3')->get($lotacao->pessoa->foto->fp_hash);
                 $fotoreplace = str_replace('fotos/uploads/', '', $lotacao->pessoa->foto->fp_hash);
                 Storage::disk('local')->put("public/exported/$fotoreplace", $file);
-                
+
                 $tempUrl = URL::temporarySignedRoute(
-                    'exported.file', 
-                    now()->addMinutes(5), 
+                    'exported.file',
+                    now()->addMinutes(5),
                     ['filename' => $fotoreplace]
                 );
             }
@@ -209,7 +209,7 @@ class LotacaoController extends Controller
     /**
      *  @OA\POST(
      *      path="/api/consulta-lotacao-nome/",
-     *      summary="Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia pelo nome parcial do servidor.",
+     *      summary="Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia pelo nome parcial do servidor efetivo.",
      *      description="Show Lotação",
      *      tags={"Lotação"},
      *     @OA\RequestBody(
@@ -236,7 +236,7 @@ class LotacaoController extends Controller
     {
         // $lotacoes = Lotacao::with(['pessoa.foto', 'unidade'])
         // ->where('unid_id', $unid_id)
-        // ->paginate(10); 
+        // ->paginate(10);
 
         $servidores = ServidorEfetivo::with('pessoa.lotacoes.unidade.endereco.endereco')->whereHas('pessoa', function($q) use($request){
             $q->where('pes_nome', 'ilike', '%' . $request->pes_nome . '%');
@@ -244,16 +244,17 @@ class LotacaoController extends Controller
 
         // Transformando os dados para incluir idade e link da foto
         $data = $servidores->map(function ($servidores) {
+            if ($servidores->pessoa->foto) {
+                $file = Storage::disk('s3')->get($servidores->pessoa->foto->fp_hash);
+                $fotoreplace = str_replace('fotos/uploads/', '', $servidores->pessoa->foto->fp_hash);
+                Storage::disk('local')->put("public/exported/$fotoreplace", $file);
 
-            $file = Storage::disk('s3')->get($servidores->pessoa->foto->fp_hash);
-            $fotoreplace = str_replace('fotos/uploads/', '', $servidores->pessoa->foto->fp_hash);
-            Storage::disk('local')->put("public/exported/$fotoreplace", $file);
-            
-            $tempUrl = URL::temporarySignedRoute(
-                'exported.file', 
-                now()->addMinutes(5), 
-                ['filename' => $fotoreplace]
-            );
+                $tempUrl = URL::temporarySignedRoute(
+                    'exported.file',
+                    now()->addMinutes(5),
+                    ['filename' => $fotoreplace]
+                );
+            }
 
             return [
                 'nome' => $servidores->pessoa->pes_nome,

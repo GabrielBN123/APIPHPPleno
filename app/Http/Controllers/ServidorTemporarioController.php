@@ -34,6 +34,9 @@ class ServidorTemporarioController extends Controller
     public function index()
     {
         $servidor = ServidorTemporario::with('pes_id')->paginate(15);
+        if (!$servidor) {
+            return response('Não encontrado', 404)->json();
+        }
         return response()->json([
             'message' => 'Servidores encontrados',
             'servidor' => $servidor,
