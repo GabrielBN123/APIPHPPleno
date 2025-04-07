@@ -18,7 +18,7 @@
 ### Clonar o repositório
 
 ```sh
-https://github.com/GabrielBN123/APIPHP.git
+https://github.com/GabrielBN123/APIPHPPleno.git
 ```
 
 ### Acessar a página do projeto
