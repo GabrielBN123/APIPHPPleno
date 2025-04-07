@@ -84,7 +84,6 @@ class PessoaController extends Controller
         }
 
         $valited = $request->validate([
-            'pes_id' => 'required|integer',
             'pes_nome' => 'required|string',
             'pes_data_nascimento' => 'required|date',
             'pes_sexo' => 'required|string',

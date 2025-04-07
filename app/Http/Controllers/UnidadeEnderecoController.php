@@ -33,7 +33,7 @@ class UnidadeEnderecoController extends Controller
      */
     public function index()
     {
-        $unidade = UnidadeEndereco::paginate(15);
+        $unidade = UnidadeEndereco::with(['unidade','endereco'])->paginate(15);
         if (!$unidade) {
             return response('Não encontrado', 404)->json();
         }
@@ -84,7 +84,7 @@ class UnidadeEnderecoController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($validated, $request){
+            return DB::transaction(function () use ($validated, $request){
                 $unidade = UnidadeEndereco::where('unid_id', $request->unid_id)->first();
                 if(!$unidade){
                     $unidade = UnidadeEndereco::create($validated);
@@ -132,7 +132,7 @@ class UnidadeEnderecoController extends Controller
      */
     public function show(string $unid_id)
     {
-        $unidade = UnidadeEndereco::where('unid_id', $unid_id)->first();
+        $unidade = UnidadeEndereco::with(['unidade','endereco'])->where('unid_id', $unid_id)->first();
         if(!$unidade){
             return response('Não encontrado', 404)->json([
                 'message' => 'Unidade Não encontrada!',
@@ -161,8 +161,7 @@ class UnidadeEnderecoController extends Controller
      *     @OA\RequestBody(
      *         required=false,
      *         @OA\JsonContent(
-     *             @OA\Property(property="unid_nome", type="string", example="Unidade do CPA II"),
-     *             @OA\Property(property="unid_sigla", type="string",example="GTCPAII"),
+     *             @OA\Property(property="end_id", type="integer", example="1"),
      *         )
      *     ),
      *     @OA\Response(
@@ -187,12 +186,11 @@ class UnidadeEnderecoController extends Controller
     {
 
         $validated = $request->validate([
-            'st_data_admissao' => 'string',
-            'st_data_demissao' => 'string',
+            'end_id' => 'required',
         ]);
 
         try {
-            DB::transaction(function () use ($validated, $unid_id){
+            return DB::transaction(function () use ($validated, $unid_id){
                 $unidade = UnidadeEndereco::where('unid_id', $unid_id)->first();
                 if(!$unidade){
                     return response('Não encontrado', 404)->json([
@@ -244,7 +242,7 @@ class UnidadeEnderecoController extends Controller
     public function destroy(string $unid_id)
     {
         try {
-            DB::transaction(function () use ($unid_id){
+            return DB::transaction(function () use ($unid_id){
                 $unidade = UnidadeEndereco::where('unid_id', $unid_id)->first();
                 if(!$unidade){
                     return response('Não encontrado', 404)->json([

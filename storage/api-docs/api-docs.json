@@ -776,7 +776,6 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "multipart/form-data": {
                             "schema": {
@@ -1107,7 +1106,7 @@
                 "tags": [
                     "Lotação"
                 ],
-                "summary": "Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia pelo nome parcial do servidor.",
+                "summary": "Retornar os seguintes campos: Nome, idade, unidade de lotação e fotografia pelo nome parcial do servidor efetivo.",
                 "description": "Show Lotação",
                 "operationId": "a2e17fe1a8cf65cc3a80756c5e94453f",
                 "requestBody": {

@@ -151,7 +151,6 @@ class FotoController extends Controller
      *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\RequestBody(
-     *         required=true,
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
@@ -183,7 +182,11 @@ class FotoController extends Controller
      */
     public function update(Request $request, string $pes_id)
     {
-        return $pes_id;
+        if (!$request->headers->has('Accept')) {
+            $request->headers->set('Accept', 'application/json');
+        }
+
+        return $request;
         $request->validate([
             'foto' => 'required|image|',
         ]);

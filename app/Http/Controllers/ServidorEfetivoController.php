@@ -88,7 +88,7 @@ class ServidorEfetivoController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($validated, $request){
+            return DB::transaction(function () use ($validated, $request){
                 $servidor = ServidorEfetivo::where('pes_id', $request->pes_id)->first();
                 if(!$servidor){
                     $servidor = ServidorEfetivo::create($validated);
@@ -99,6 +99,7 @@ class ServidorEfetivoController extends Controller
                     'servidor' => $servidor,
                 ]);
             });
+            return response()->json(['message' => 'Servidor Efetivo cadastrado!',]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ocorreu um erro',
@@ -194,7 +195,7 @@ class ServidorEfetivoController extends Controller
 
 
         try {
-            DB::transaction(function () use ($validated, $pes_id){
+            return DB::transaction(function () use ($validated, $pes_id){
                 $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $pes_id)->first();
                 if(!$servidor){
                     return response('Não encontrado', 404)->json([
@@ -208,6 +209,7 @@ class ServidorEfetivoController extends Controller
                     'servidor' => $servidor,
                 ]);
             });
+            return response()->json(['message' => 'Servidor atualizado!',]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ocorreu um erro',
@@ -246,7 +248,7 @@ class ServidorEfetivoController extends Controller
     public function destroy(string $pes_id)
     {
         try {
-            DB::transaction(function () use ($pes_id){
+            return DB::transaction(function () use ($pes_id){
                 $servidor = ServidorEfetivo::with('pessoa')->where('pes_id', $pes_id)->first();
                 if(!$servidor){
                     return response('Não encontrado', 404)->json([

@@ -33,7 +33,7 @@ class ServidorTemporarioController extends Controller
      */
     public function index()
     {
-        $servidor = ServidorTemporario::with('pes_id')->paginate(15);
+        $servidor = ServidorTemporario::with('pessoa')->paginate(15);
         if (!$servidor) {
             return response('Não encontrado', 404)->json();
         }
@@ -86,7 +86,7 @@ class ServidorTemporarioController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($validated, $request){
+            return DB::transaction(function () use ($validated, $request){
                 $servidor = ServidorTemporario::where('pes_id', $request->pes_id)->first();
                 if(!$servidor){
                     $servidor = ServidorTemporario::create($validated);
@@ -97,6 +97,7 @@ class ServidorTemporarioController extends Controller
                     'servidor' => $servidor,
                 ]);
             });
+            return response()->json(['message' => 'Servidor Temporario cadastrado!',]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ocorreu um erro',
@@ -195,7 +196,7 @@ class ServidorTemporarioController extends Controller
 
 
         try {
-            DB::transaction(function () use ($validated, $pes_id){
+            return DB::transaction(function () use ($validated, $pes_id){
                 $servidor = ServidorTemporario::with('pessoa')->where('pes_id', $pes_id)->first();
                 if(!$servidor){
                     return response('Não encontrado', 404)->json([
@@ -247,7 +248,7 @@ class ServidorTemporarioController extends Controller
     public function destroy(string $pes_id)
     {
         try {
-            DB::transaction(function () use ($pes_id){
+            return DB::transaction(function () use ($pes_id){
                 $servidor = ServidorTemporario::with('pessoa')->where('pes_id', $pes_id)->first();
                 if(!$servidor){
                     return response('Não encontrado', 404)->json([

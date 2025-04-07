@@ -33,7 +33,7 @@ class UnidadeController extends Controller
      */
     public function index()
     {
-        $unidade = Unidade::paginate(15);
+        $unidade = Unidade::with('endereco.endereco')->paginate(15);
         if (!$unidade) {
             return response('Não encontrado', 404)->json();
         }
@@ -84,8 +84,8 @@ class UnidadeController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($validated, $request){
-                $unidade = Unidade::where('unidade_id', $request->unidade_id)->first();
+            return DB::transaction(function () use ($validated, $request){
+                $unidade = Unidade::where('unid_nome', $request->unid_nome)->first();
                 if(!$unidade){
                     $unidade = Unidade::create($validated);
                 }
@@ -132,7 +132,7 @@ class UnidadeController extends Controller
      */
     public function show(string $unidade_id)
     {
-        $unidade = Unidade::where('unidade_id', $unidade_id)->first();
+        $unidade = Unidade::where('unid_id', $unidade_id)->first();
         if(!$unidade){
             return response('Não encontrado', 404)->json([
                 'message' => 'Unidade Não encontrada!',
@@ -187,13 +187,13 @@ class UnidadeController extends Controller
     {
 
         $validated = $request->validate([
-            'st_data_admissao' => 'string',
-            'st_data_demissao' => 'string',
+            'unid_nome' => 'string',
+            'unid_sigla' => 'string',
         ]);
 
         try {
-            DB::transaction(function () use ($validated, $unidade_id){
-                $unidade = Unidade::where('unidade_id', $unidade_id)->first();
+            return DB::transaction(function () use ($validated, $unidade_id){
+                $unidade = Unidade::where('unid_id', $unidade_id)->first();
                 if(!$unidade){
                     return response('Não encontrado', 404)->json([
                         'message' => 'Unidade Não encontrada!',
@@ -244,8 +244,8 @@ class UnidadeController extends Controller
     public function destroy(string $unidade_id)
     {
         try {
-            DB::transaction(function () use ($unidade_id){
-                $unidade = Unidade::where('unidade_id', $unidade_id)->first();
+            return DB::transaction(function () use ($unidade_id){
+                $unidade = Unidade::where('unid_id', $unidade_id)->first();
                 if(!$unidade){
                     return response('Não encontrado', 404)->json([
                         'message' => 'Unidade Não encontrada!',
