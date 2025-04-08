@@ -155,6 +155,7 @@ class FotoController extends Controller
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 @OA\Property(
+     *                     required=true,
      *                     property="foto",
      *                     description="Arquivo de foto (imagem)",
      *                     type="string",
@@ -186,7 +187,6 @@ class FotoController extends Controller
             $request->headers->set('Accept', 'application/json');
         }
 
-        return $request;
         $request->validate([
             'foto' => 'required|image|',
         ]);
@@ -197,7 +197,6 @@ class FotoController extends Controller
         if (!$pessoa) {
             return response('Não encontrado', 404)->json();
         }
-
 
         try {
 
