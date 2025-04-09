@@ -57,7 +57,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('/foto-pessoa', [FotoController::class, 'index']);
     Route::get('/show-foto-pessoa/{pes_id}', [FotoController::class, 'show']);
     Route::post('/store-foto-pessoa/{pes_id}', [FotoController::class, 'store']);
-    Route::put('/update-foto-pessoa/{pes_id}', [FotoController::class, 'update']);
+    Route::post('/update-foto-pessoa/{pes_id}', [FotoController::class, 'update']);
     Route::delete('/delete-foto-pessoa/{pes_id}', [FotoController::class, 'destroy']);
 
     // Route::get('/fotos/get-foto/{pes_id}', [FotoController::class, 'obterLinkTemporario']);
