@@ -138,7 +138,7 @@ class FotoController extends Controller
     }
 
     /**
-     * @OA\PUT(
+     * @OA\POST(
      *     path="/api/update-foto-pessoa/{pes_id}",
      *     summary="Atualizar foto de usuário",
      *     description="Endpoint atualizar foto de usuário, vinculando ao mesmo.",
@@ -150,20 +150,23 @@ class FotoController extends Controller
      *         description="ID da pessoa",
      *         @OA\Schema(type="integer", example=1)
      *     ),
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     required=true,
-     *                     property="foto",
-     *                     description="Arquivo de foto (imagem)",
-     *                     type="string",
-     *                     format="binary"
-     *                 )
-     *             )
-     *         )
-     *     ),
+     *      @OA\RequestBody(
+    *         required=true,
+    *         content={
+    *             @OA\MediaType(
+    *                 mediaType="multipart/form-data",
+    *                 @OA\Schema(
+    *                     required={"foto"},
+    *                     @OA\Property(
+    *                         property="foto",
+    *                         type="string",
+    *                         format="binary",
+    *                         description="Arquivo da imagem"
+    *                     )
+    *                 )
+    *             )
+    *         }
+    *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Foto enviada com sucesso!",
